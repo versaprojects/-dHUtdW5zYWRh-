@@ -48,14 +48,14 @@ auth:
     nik_nip: nik_nip
     add_roles: add_roles
   pages:
-    protected: true
-    public:
-      - login
-      - logged-out
-      - '404'
-      - signup
-      - public-page
-      - homepage
+    public: true
+    # public:
+    #   - login
+    #   - logged-out
+    #   - '404'
+    #   - signup
+    #   - public-page
+    #   - homepage
     roles:
       User Admin:
       - users
