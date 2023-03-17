@@ -48,14 +48,14 @@ auth:
     nik_nip: nik_nip
     add_roles: add_roles
   pages:
-    public: true
-    # public:
-    #   - login
-    #   - logged-out
-    #   - '404'
-    #   - signup
-    #   - public-page
-    #   - homepage
+    protected: true
+    public:
+      - login
+      - logged-out
+      - '404'
+      - signup
+      - public-page
+      - homepage
     roles:
       User Admin:
       - users
@@ -85,10 +85,12 @@ menus:
 connections:
   _ref: connections.yaml
 
-requests:
-  - _ref: pages/users/requests/get_users.yaml
+# requests:
+#   - _ref: pages/users/requests/get_users.yaml
 
 pages:
+  - _ref: pages/public/public-page.yaml
+  - _ref: pages/public/homepage.yaml
   - _ref: pages/users/edit-profile.yaml
   - _ref: pages/users/edit-user.yaml
   - _ref: pages/users/logged-in.yaml
@@ -98,13 +100,11 @@ pages:
   - _ref: pages/users/signup.yaml
   - _ref: pages/users/users.yaml
   - _ref: pages/404/404.yaml
-  - _ref: pages/public/public-page.yaml
-  - _ref: pages/public/homepage.yaml
   - _ref: pages/surat/pengajuan-surat-mahasiswa.yaml
   - _ref: pages/surat/pengajuan-surat-dosen.yaml
   - _ref: pages/surat/surat-saya-dosen.yaml
   - _ref: pages/surat/surat-saya-mahasiswa.yaml
-  - _ref: pages/surat/surat-1.yaml
+  # - _ref: pages/surat/surat-1.yaml
   - _ref: pages/surat/persetujuan-surat-pa.yaml
   - _ref: pages/surat/persetujuan-surat-kaprodi.yaml
   - _ref: pages/surat/persetujuan-surat-dekan.yaml

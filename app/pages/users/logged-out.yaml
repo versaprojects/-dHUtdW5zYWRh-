@@ -25,13 +25,19 @@ blocks:
     style:
       margin: 100px 20px
     blocks:
-      - id: logo
-        type: Html
-        style:
-          textAlign: center
+      - id: card_logo
+        type: Card
         properties:
-          html: |
-            <img style="width: 80%; max-width: 250px;" src="/logo-light-theme.png" alt="RNR"/>
+          style:
+            background-color: '#273272'
+        blocks:
+          - id: logo
+            type: Html
+            style:
+              textAlign: center
+            properties:
+              html: |
+                <img style="width: 80%; max-width: 250px;" src="https://i.imgur.com/uc9DZ9U.png" alt="RNR"/>
       - id: login_button_box
         type: Box
         layout:

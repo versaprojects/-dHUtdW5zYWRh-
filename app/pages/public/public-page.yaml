@@ -5,19 +5,19 @@ properties:
     path: shared/header.yaml
     vars:
       headerTitle: Aplikasi Pengajuan Surat
-requests:
-- _ref: pages/users/requests/wa_validate.yaml
+# requests:
+# - _ref: pages/users/requests/wa_validate.yaml
 
-events:
-  onInit:
-    - id: link
-      type: SetState
-      params:
-        nomor_surat:
-          _log:
-           _get_nomor_surat:
-                nomorUrut: 10
-                kodeSurat: SPD
+# events:
+#   onInit:
+#     - id: link
+#       type: SetState
+#       params:
+#         nomor_surat:
+#           _log:
+#            _get_nomor_surat:
+#                 nomorUrut: 10
+#                 kodeSurat: SPD
 
 areas:
   footer:

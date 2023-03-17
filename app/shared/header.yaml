@@ -1,4 +1,6 @@
 # Header
+  logo: # Change the logo displayed in the menu
+    src: https://i.imgur.com/uc9DZ9U.png
   header:
     theme: dark
   title: 
