@@ -4,5 +4,3 @@
 **/node_modules/**
 **/dist/**
 api/dev/**
-.toml
-Dockerfile
