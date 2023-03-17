@@ -1,0 +1,119 @@
+id: profile_form
+type: Box
+layout:
+  contentGutter: 16
+  contentJustify: center
+blocks:
+  - id: avatar_box
+    type: Box
+    layout:
+      size: 120
+      contentGutter: 24
+    blocks:
+      - id: avatar
+        type: Avatar
+        layout:
+          flex: 0 1 auto
+        style:
+          margin: auto
+        properties:
+          size: 120
+          src:
+            _if_none:
+              - _state: user.profile.picture
+              - _state: user.image
+          alt:
+            _user: user.profile.name
+      - id: new_avatar
+        type: Button
+        properties:
+          icon: SyncOutlined
+          shape: round
+          size: small
+          type: default
+          title: New Avatar
+    events:
+      onClick:
+        # Generate a new picture URL.
+        - id: new_avatar_scr
+          type: SetState
+          params:
+            user:
+              profile:
+                _log:
+                  picture:
+                    _nunjucks:
+                      template: 
+                        'https://avatars.dicebear.com/api/bottts/{{ random }}.svg'
+                      on:
+                        _log:
+                          random:
+                            _random:
+                              type: string
+                              length: 12
+  - id: user.email
+    type: TextInput
+    properties:
+      # inputStyle:
+      #   borderRadius: 10
+      disabled: true
+      title: Email
+  - id: user.profile.first_name
+    type: TextInput
+    required: Harap mengisi nama depan.
+    layout:
+      span: 12
+    properties:
+      # inputStyle:
+      #   borderRadius: 10
+      title: Nama Depan
+  - id: user.profile.last_name
+    type: TextInput
+    required: Harap mengisi nama belakang.
+    layout:
+      span: 12
+    properties:
+      # inputStyle:
+      #   borderRadius: 10
+      title: Nama Belakang
+  - id: user.profile.phone
+    type: TextInput
+    layout:
+      span: 12
+    required: true
+    properties:
+      placeholder: 812xxxxxx
+      prefix: "+62"
+      # prefixIcon: AiFillCamera
+      suffixIcon: AiFillPhone
+      label:
+        title: Nomor Kontak
+      # size: large
+    validate:
+      - status: error
+        message: Nomor yang anda masukan salah.
+        pass:
+          _regex: '^(?:8|2)\d{7,11}$'
+  - id: user.profile.address
+    type: TextArea
+    layout:
+      span: 12
+    required: true
+    properties:
+      # inputStyle:
+      #   borderRadius: 10
+      title: Alamat
+  - id: user.profile.jurusan
+    type: Selector
+    required: true
+    properties:
+      placeholder: Pilih Jurusan
+      options:
+        _request: get_jurusan
+      label:
+        title: Jurusan
+    events:
+      onMount:
+        - id: get_jurusan
+          type: Request
+          params: get_jurusan

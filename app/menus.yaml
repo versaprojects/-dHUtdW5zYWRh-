@@ -1,0 +1,75 @@
+- id: default
+  links:
+    - id: home-page
+      type: MenuLink
+      properties:
+        title: Homepage
+        icon: AiFillLayout
+      pageId: homepage
+    - id: public-page
+      type: MenuLink
+      properties:
+        title: Public Page
+        icon: AiFillLayout
+      pageId: public-page
+    - id: surat-mahasiswa
+      type: MenuGroup
+      properties:
+        title: Surat Mahasiswa
+      links:
+        - id: sm-1
+          type: MenuLink
+          properties:
+            title: Pengajuan Surat
+          pageId: pengajuan-surat-mahasiswa
+        - id: sm-2
+          type: MenuLink
+          properties:
+            title: Surat Saya
+          pageId: surat-saya-mahasiswa
+    - id: surat-dosen
+      type: MenuGroup
+      properties:
+        title: Surat Dosen
+      links:
+        - id: sd-1
+          type: MenuLink
+          properties:
+            title: Pengajuan Surat
+          pageId: pengajuan-surat-dosen
+        - id: sd-2
+          type: MenuLink
+          properties:
+            title: Surat Saya
+          pageId: surat-saya-dosen
+    - id: persetujuan-surat
+      type: MenuGroup
+      properties:
+        title: Persetujuan Permohonan
+      links:
+        - id: ps-1
+          type: MenuLink
+          properties:
+            title: Persetujuan Surat (PA)
+          pageId: persetujuan-surat-pa
+        - id: ps-2
+          type: MenuLink
+          properties:
+            title: Persetujuan Surat (Kaprodi)
+          pageId: persetujuan-surat-kaprodi
+        - id: ps-3
+          type: MenuLink
+          properties:
+            title: Persetujuan Surat (Dekan)
+          pageId: persetujuan-surat-dekan
+        - id: ps-4
+          type: MenuLink
+          properties:
+            title: Persetujuan Surat (Tata Usaha)
+          pageId: persetujuan-surat-tu
+    - id: user-page
+      type: MenuLink
+      properties:
+        title: Users
+        icon: AiFillLayout
+      pageId: users

@@ -1,0 +1,51 @@
+- id: users
+  type: MongoDBCollection
+  properties:
+    collection: users
+    databaseUri:
+      _secret: MONGODB_URI
+    write: true
+- id: jenis_surat
+  type: MongoDBCollection
+  properties:
+    collection: jenis_surat
+    databaseUri:
+      _secret: MONGODB_URI
+    write: true
+- id: jurusan
+  type: MongoDBCollection
+  properties:
+    collection: jurusan
+    databaseUri:
+      _secret: MONGODB_URI
+    write: true
+- id: permohonan
+  type: MongoDBCollection
+  properties:
+    collection: permohonan
+    databaseUri:
+      _secret: MONGODB_URI
+    write: true
+- id: gs_data_user
+  type: GoogleSheet
+  properties:
+    client_email:
+      _secret: SHEETS_CLIENT_EMAIL
+    private_key:
+      _base64.decode:
+        _secret: SHEETS_PRIVATE_KEY
+    sheetId: '0'
+    spreadsheetId: 1SezGy1JMohatMuBG6CDy_rYe9z5gadYnXkoJeglq9xI
+    write: true
+    columnTypes:
+      nik_nip: string
+      name: string
+      roles: string
+      claimed: boolean
+- id: fonnte
+  type: AxiosHttp
+  properties:
+    baseURL: https://api.fonnte.com
+    headers:
+      Authorization: WmVqgXA9fsaRc6SnMeEB
+      'Content-Type': multipart/form-data

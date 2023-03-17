@@ -1,0 +1,16 @@
+id: get_jurusan
+type: MongoDBAggregation 
+connectionId: jurusan
+# payload:
+#   role:
+#     _user: roles
+properties:
+  # query:
+  #   type:
+  #     _payload: role
+  pipeline:
+    - $project:
+        label: $name 
+        value: $name 
+    - $sort:
+        label: 1 # Sort the list alphabetically according to the label

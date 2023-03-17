@@ -1,0 +1,111 @@
+lowdefy: 4.0.0-rc.5
+version: 0.0.0
+license: MIT
+name: Lowdefy Starter
+plugins:
+  # - name: 'plugin-times-eleven-operator'
+  #   version: 'workspace:*'
+  # - name: 'plugin-base64-image-url'
+  #   version: 'workspace:*'
+  - name: 'plugin-get-nomor-surat'
+    version: 'workspace:*'
+config:
+  homePageId: homepage
+auth:
+  authPages:
+    signIn: '/login'
+  adapter:
+    id: mdb_adapter
+    type: MongoDBAdapter
+    properties:
+      databaseUri:
+        _secret: MONGODB_URI
+      options:
+        databaseName: sample_apps
+  callbacks:
+    - id: auth0_logout
+      type: Auth0LogoutCallback
+      properties:
+        clientId:
+          _secret: AUTH0_CLIENT_ID
+        issuer:
+          _secret: AUTH0_ISSUER
+        returnToPagedId: logged-out
+  providers:
+    - id: auth0
+      type: Auth0Provider
+      properties:
+        clientId:
+          _secret: AUTH0_CLIENT_ID
+        clientSecret:
+          _secret: AUTH0_CLIENT_SECRET
+        issuer:
+          _secret: AUTH0_ISSUER
+  userFields:
+    id: _id #field in users table
+    roles: roles #field in users table
+    profile: profile #field in users table
+    nik_nip: nik_nip
+    add_roles: add_roles
+  pages:
+    protected: true
+    public:
+      - login
+      - logged-out
+      - '404'
+      - signup
+      - public-page
+      - homepage
+    roles:
+      User Admin:
+      - users
+      - edit-user
+      Mahasiswa:
+      - pengajuan-surat-mahasiswa
+      - surat-saya-mahasiswa
+      Dosen:
+      - pengajuan-surat-dosen
+      - surat-saya-dosen
+      Pembimbing Akademik:
+      - persetujuan-surat-pa
+      Kepala Prodi:
+      - persetujuan-surat-kaprodi
+      Dekan:
+      - persetujuan-surat-dekan
+      Tata Usaha:
+      - persetujuan-surat-tu
+
+
+global:
+  _ref: global.yaml
+
+menus:
+  _ref: menus.yaml
+
+connections:
+  _ref: connections.yaml
+
+requests:
+  - _ref: pages/users/requests/get_users.yaml
+
+pages:
+  - _ref: pages/users/edit-profile.yaml
+  - _ref: pages/users/edit-user.yaml
+  - _ref: pages/users/logged-in.yaml
+  - _ref: pages/users/logged-out.yaml
+  - _ref: pages/users/login.yaml
+  - _ref: pages/users/profile.yaml
+  - _ref: pages/users/signup.yaml
+  - _ref: pages/users/users.yaml
+  - _ref: pages/404/404.yaml
+  - _ref: pages/public/public-page.yaml
+  - _ref: pages/public/homepage.yaml
+  - _ref: pages/surat/pengajuan-surat-mahasiswa.yaml
+  - _ref: pages/surat/pengajuan-surat-dosen.yaml
+  - _ref: pages/surat/surat-saya-dosen.yaml
+  - _ref: pages/surat/surat-saya-mahasiswa.yaml
+  - _ref: pages/surat/surat-1.yaml
+  - _ref: pages/surat/persetujuan-surat-pa.yaml
+  - _ref: pages/surat/persetujuan-surat-kaprodi.yaml
+  - _ref: pages/surat/persetujuan-surat-dekan.yaml
+  - _ref: pages/surat/persetujuan-surat-tu.yaml

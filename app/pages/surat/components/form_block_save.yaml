@@ -1,0 +1,74 @@
+id: save_Card
+type: Card
+properties:
+  style: 
+    margin-top: 10
+  bordered: false
+layout:
+  # span: 16
+  contentJustify: center
+  contentGutter: 10
+blocks:
+  - id: save_button
+    type: Button
+    layout:
+      span: 12
+    properties:
+      type: default
+      title: Simpan
+      # shape: round
+      icon: AiOutlineSave
+      block: true
+    events:
+      onClick:
+        - id: validate # Then validate our webform input.
+          type: Validate
+          messages:
+            error: Mohon periksa kembali informasi yang Anda masukkan.
+        - id: set_send
+          type: SetState
+          params:
+            pengajuan:
+              status: Draft Berkas
+              code:
+                _state: jenis_surat.code
+        - id: insert_pengajuan
+          type: Request
+          params: insert_permohonan
+        - id: reset
+          type: Reset
+        - id: jump_to_page
+          type: Link
+          params:
+            pageId: surat-saya-mahasiswa
+  - id: send_button
+    type: Button
+    layout:
+      span: 12
+    properties:
+      title: Kirim
+      # shape: round
+      icon: AiOutlineSend
+      block: true
+    events:
+      onClick:
+        - id: validate # Then validate our webform input.
+          type: Validate
+          messages:
+            error: Mohon periksa kembali informasi yang Anda masukkan.
+        - id: set_send
+          type: SetState
+          params:
+            pengajuan:
+              status: Berkas Dikirim
+              code:
+                _state: jenis_surat.code
+        - id: insert_pengajuan
+          type: Request
+          params: insert_permohonan
+        - id: reset
+          type: Reset
+        - id: jump_to_page
+          type: Link
+          params:
+            pageId: surat-saya-mahasiswa

@@ -1,0 +1,49 @@
+filename: example.pdf
+docDefinition:
+  # Defining Styles
+  footer:
+    - columns:
+        - text: This is footer
+          style: footer
+        - text: This is a footer Right
+          style: footer_right
+  content:
+    - margin: [0, 0, 0, 10]
+      columns:
+        - image:
+            _state: images
+          width: 90
+          height: 90
+        - width: "*"
+          margin: [0, 10, 0, 0]
+          alignment: center
+          stack:
+            - text: 'Universitas Darma Persada'
+              style: header
+            - text: 'Jl, Taman Malaka Selatan, Pondok Kelapa - Jakarta 13450'
+              style: subheader
+            - text: 'Email: humas@unsada'
+              style: subheader
+    - text: This is a header, using header style
+      style: header
+    - |
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Confectum ponit legam, perferendis nomine miserum, animi. Moveat nesciunt triari naturam.
+
+    - text: Subheader 1 - using subheader style
+      style: subheader
+  styles:
+    header:
+      fontSize: 18
+      bold: true
+      lineHeight: 1.2
+    subheader:
+      fontSize: 14
+      bold: true
+      lineHeight: 1.2
+    footer:
+      margin: [50, 0, 0, 0]
+      fontSize: 8
+    footer_right:
+      alignment: right
+      margin: [0, 0, 50, 0]
+      fontSize: 8

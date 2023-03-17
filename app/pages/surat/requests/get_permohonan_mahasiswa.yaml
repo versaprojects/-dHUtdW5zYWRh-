@@ -1,0 +1,29 @@
+id: get_permohonan_mahasiswa
+type: MongoDBAggregation 
+connectionId: permohonan
+payload:
+  user_id:
+    _user: id
+  # pagination:
+  #   _state: permohonan_mahasiswa_pagination
+properties:
+  query:
+    user_id:
+      _payload: user_id
+  pipeline:
+    - $project:
+        tgl_pengajuan:
+          $dateToString:
+            date: $tgl_pengajuan
+            format: '%d/%m/%Y %H:%M'
+            timezone: "Asia/Jakarta"
+        nama: 1
+        jenis_surat: 1
+        file: 1
+        status: 1
+    - $sort:
+        tgl_pengajuan: -1 # Sort the list alphabetically according to the label 
+    # - $skip:
+    #     _payload: pagination.skip
+    # - $limit:
+    #     _payload: pagination.pageSize

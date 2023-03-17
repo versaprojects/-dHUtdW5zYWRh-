@@ -1,0 +1,20 @@
+id: lihat_permohonan
+type: MongoDBUpdateOne 
+connectionId: permohonan
+payload:
+  id:
+    _state: selected._id
+  user:
+    _user: profile.name
+properties:
+  filter:
+    _id:
+      _payload: id
+  update:
+    $push:
+      timeline:
+        action: Berkas Dilihat
+        actor:
+          _payload: user
+        timestamp:
+          _date: now

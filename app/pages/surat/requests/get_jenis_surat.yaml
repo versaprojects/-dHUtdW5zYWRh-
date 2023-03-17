@@ -1,0 +1,16 @@
+id: get_jenis_surat
+type: MongoDBAggregation 
+connectionId: jenis_surat
+payload:
+  role:
+    _user: roles
+properties:
+  query:
+    type:
+      _payload: role
+  pipeline:
+    - $project:
+        label: $name 
+        value: $name 
+    - $sort:
+        label: 1 # Sort the list alphabetically according to the label

@@ -1,0 +1,102 @@
+- id: pengajuan.nama
+  type: TextInput
+  layout:
+    span: 12
+    sm:
+      span: 12
+  properties:
+    # inputStyle:
+    #   borderRadius: 10
+    disabled: true
+    title: Nama
+- id: pengajuan.nip
+  type: TextInput
+  layout:
+    span: 12
+    sm:
+      span: 12
+  properties:
+    # inputStyle:
+    #   borderRadius: 10
+    disabled: true
+    title: NIP
+- id: pengajuan.jurusan
+  type: TextInput
+  layout:
+    span: 12
+    sm:
+      span: 12
+  properties:
+    # inputStyle:
+    #   borderRadius: 10
+    disabled: true
+    title: Jurusan
+- id: pengajuan.phone
+  type: TextInput
+  layout:
+    span: 12
+    sm:
+      span: 12
+  properties:
+    # inputStyle:
+    #   borderRadius: 10
+    disabled: true
+    title: Telepon
+- id: pengajuan.address
+  type: TextArea
+  layout:
+    span: 12
+    sm:
+      span: 12
+  properties:
+    # inputStyle:
+    #   borderRadius: 10
+    disabled: true
+    title: Alamat
+- id: card_notif
+  type: Card
+  properties:
+    style: 
+      margin-top: 15
+    bordered: false
+  layout:
+    span: 12
+  blocks:
+    - id: block_alert
+      type: Alert
+      properties:
+        message: Data pemohon dapat dirubah melalui menu Profile
+        type: warning
+- id: contact_box
+  type: Box
+  properties:
+    style:
+      text-align: center
+  blocks:
+    - id: block_id
+      type: Button
+      properties:
+        block: true
+        href: "/edit-profile"
+        icon: AiFillEdit
+        title: Klik disini untuk merubah Data.
+        type: link
+- id: pengajuan.file
+  type: TextInput
+  # layout:
+  #   span: 12
+  #   sm:
+  #     span: 12
+  properties:
+    # inputStyle:
+    #   borderRadius: 10
+    # disabled: true
+    label:
+      extra: Pastikan URL yang diinput diawali dengan https:// & telah memberikan share akses
+    title: URL Draft Pengajuan
+  validate:
+    - status: error
+      message: URL yang anda masukan belum sesuai.
+      pass:
+        _regex: '^https:\/\/.*'
+- _ref: pages/surat/components/form_block_save.yaml

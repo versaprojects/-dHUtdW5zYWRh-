@@ -1,0 +1,17 @@
+id: get_jenis_surat_one
+type: MongoDBFindOne 
+connectionId: jenis_surat
+payload:
+  pengajuan:
+    _state: pengajuan
+properties:
+  query:
+    name:
+      _payload: pengajuan.jenis_surat
+  pipeline:
+    - $project:
+        name: 1
+        template: 1
+        code: 1
+    - $sort:
+        label: 1 # Sort the list alphabetically according to the label

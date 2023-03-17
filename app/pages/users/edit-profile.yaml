@@ -1,0 +1,246 @@
+id: edit-profile
+type: PageHeaderMenu
+properties:
+  _ref:
+    path: shared/header.yaml
+    vars:
+      headerTitle: Edit Profil
+layout:
+  contentJustify: center
+areas:
+  footer:
+    blocks:
+      - _ref: shared/footer.yaml
+  header:
+    blocks:
+      - _ref: shared/users/user_avatar.yaml
+
+events:
+  onInit:
+    - id: init
+      type: SetState
+      params:
+        user:
+          _user: true
+    # Generate a random avatars.dicebear.com robot avatar for the user.
+requests:
+  - _ref: pages/users/requests/update_profile.yaml
+  - _ref: pages/users/requests/get_data_user.yaml
+  - _ref: pages/users/requests/update_data_user.yaml
+  - _ref: pages/surat/requests/get_jurusan.yaml
+
+blocks:
+  - id: title
+    type: Title
+    style:
+      textAlign: center
+    properties:
+      content: Edit Profile
+      level: 2
+  - id: content_card
+    type: Card
+    layout:
+      size: 600
+      contentGutter: 16
+      contentJustify: center
+    blocks:
+      - _ref: pages/users/components/profile_form.yaml
+      - id: nik_nip_box
+        type: Box
+        layout:
+          contentGutter: 16
+        visible:
+          _ne:
+            - _user: profile.name
+            - null
+        blocks:
+        - id: user.nik_nip
+          type: TextInput
+          layout:
+            span: 12
+            sm:
+              span: 12
+          properties:
+            # inputStyle:
+            #   borderRadius: 10
+            disabled: true
+            title: NIK / NIP
+        - id: user.roles
+          type: TextInput
+          layout:
+            span: 12
+            sm:
+              span: 12
+          properties:
+            # inputStyle:
+            #   borderRadius: 10
+            disabled: true
+            title: Roles
+        - id: block_alert
+          type: Alert
+          properties:
+            message: Data ditemukan.
+            type: success
+            banner: true
+          visible:
+            _ne:
+              - _state: data_nik_nip
+              - null
+      - id: connect_box
+        type: Box
+        layout:
+          contentGutter: 16
+        visible:
+          _and:
+            - _ne:
+              - _user: profile.name
+              - null
+            - _eq:
+              - _user: nik_nip
+              - null
+        blocks:
+        - id: divider
+          type: Divider
+          properties:
+            title: Hubungkan Data
+        - id: set_nik_nip
+          type: TextInput
+          layout:
+            span: 12
+            sm:
+              span: 12
+          properties:
+            title: NIK / NIP
+            # inputStyle:
+            #   borderRadius: 10
+            label:
+              inline: true
+        - id: connect_button
+          type: Button
+          layout:
+            span: 12
+            sm:
+              span: 12
+          properties:
+            title: Hubungkan
+            # shape: round
+            icon: AiOutlineLink
+            block: true
+          events:
+            onClick:
+              - id: init_role
+                type: SetState
+                params:
+                  user:
+                    roles: null
+                    nik_nip: null
+              - id: get_nip_nik
+                type: Request
+                messages:
+                  loading: true
+                params: get_nik_nip
+              - id: fetch_nip_nik
+                type: SetState
+                params:
+                  data_nik_nip:
+                    _request: get_nik_nip
+                  user:
+                    _user: true 
+              - id: foo_throw
+                type: Throw
+                params:
+                  throw:
+                    _eq:
+                      - _state: data_nik_nip
+                      - null
+                  message: 
+                    _nunjucks:
+                      template: |
+                        Nama: "{{ nama }}" dengan NIP: "{{ nip }}" Tidak Ditemukan
+                      on:
+                        nip:
+                          _state: set_nik_nip
+                        nama:
+                          _nunjucks:
+                            template: |
+                              {{ first_name }} {{ last_name }}
+                            on:
+                              first_name:
+                                _state: user.profile.first_name
+                              last_name:
+                                _state: user.profile.last_name
+                  status: error
+              - id: set_role
+                type: SetState
+                params:
+                  user:
+                    roles:
+                      _state: data_nik_nip.roles
+                    nik_nip:
+                      _state: data_nik_nip.nik_nip
+                    image:
+                      _user: image
+        - id: contact_box
+          type: Box
+          properties:
+            style:
+              text-align: center
+          blocks:
+            - id: block_id
+              type: Button
+              properties:
+                block: true
+                href: "#"
+                icon: AiFillPhone
+                title: Hubungi Admin Apabila Akun tidak ditemukan.
+                type: link
+      - id: cancel_button
+        type: Button
+        layout:
+          span: 12
+          sm:
+            span: 12
+        properties:
+          title: Cancel
+          # shape: round
+          icon: AiOutlineCloseCircle
+          type: default
+          block: true
+        events:
+          onClick:
+            - id: return_to_profile
+              type: Link
+              params: profile
+      - id: save_button
+        type: Button
+        layout:
+          span: 12
+          sm:
+            span: 12
+        properties:
+          title: Save
+          # shape: round
+          icon: AiOutlineSave
+          block: true
+        events:
+          onClick:
+            - id: validate # Then validate our webform input.
+              type: Validate
+              messages:
+                error: Mohon periksa kembali informasi yang Anda masukkan.
+            - id: update_profile_mongodb
+              type: Request
+              params: update_profile
+            - id: update_nik_nip
+              type: Request
+              params: update_nik_nip
+            - id: update_user_id_token
+              type: Login
+              params:
+                callbackUrl:
+                  pageId: profile
+            # - id: back
+            #   type: Link
+            #   params:
+            #     back: true
+      

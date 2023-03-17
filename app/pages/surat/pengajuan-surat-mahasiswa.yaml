@@ -1,0 +1,176 @@
+id: pengajuan-surat-mahasiswa
+type: PageHeaderMenu
+properties:
+  _ref:
+    path: shared/header.yaml
+    vars:
+      headerTitle: Pengajuan Surat mahasiswa
+
+requests:
+  - _ref: pages/surat/requests/get_jenis_surat.yaml
+  - _ref: pages/surat/requests/get_jenis_surat_one.yaml
+  - _ref: pages/surat/requests/insert_permohonan.yaml
+
+events:
+  onInit:
+    - id: fetch_default
+      type: SetState
+      params: 
+        pengajuan.jenis_surat: Surat Permohon Cuti Akademik
+    - id: get_jenis_surat_one
+      type: Request
+      params: get_jenis_surat_one
+    - id: fetch_url_template
+      type: SetState
+      params: 
+        jenis_surat:
+          _request: get_jenis_surat_one
+  onMount:
+    - id: fetch_user_data
+      type: SetState
+      params: 
+        pengajuan.nama:
+          _user: profile.name
+        pengajuan.nip:
+          _user: nik_nip
+        pengajuan.jurusan:
+          _user: profile.jurusan
+        pengajuan.phone:
+          _user: profile.phone
+        pengajuan.address:
+          _user: profile.address
+        pengajuan.file: null
+
+areas:
+  footer:
+    blocks:
+      - _ref: shared/footer.yaml
+  header:
+    blocks:
+      - _ref: shared/users/user_avatar.yaml
+  content:
+    gutter: 10
+    blocks:
+      - id: breadcrumb
+        type: Breadcrumb
+        properties:
+          list:
+            - Surat Mahasiswa
+            - Pengajuan Surat
+      - id: max_width_box 
+        type: Box
+        layout:
+          size: 1200
+        blocks:
+          - id: title
+            type: Title
+            layout:
+              flex: 1 0 auto
+            properties:
+              content: Pengajuan Surat Mahasiswa
+              level: 2
+      - id: content_card
+        type: Card
+        properties:
+          hoverable: true
+        layout:
+          span: 8
+        blocks:
+          - id: pengajuan.jenis_surat
+            type: Selector
+            style:
+                border-radius: 10px
+            properties:
+              style:
+                border-radius: 25px
+              placeholder: Pilih Surat
+              options:
+                _request: get_jenis_surat
+              label:
+                title: Jenis Surat
+            events:
+              onMount:
+                - id: get_jenis_surat
+                  type: Request
+                  params: get_jenis_surat
+              onChange:
+                - id: get_jenis_surat_one
+                  type: Request
+                  params: get_jenis_surat_one
+                - id: fetch_url_template
+                  type: SetState
+                  params: 
+                    jenis_surat:
+                      _request: get_jenis_surat_one
+          - id: jenis_surat
+            type: Button
+            style:
+                padding: 15
+            loading:
+              _eq:
+                - _state: jenis_surat
+                - null
+            properties:
+              # block: true
+              size: medium
+              href: 
+                _state: jenis_surat.template
+              icon: AiFillFile
+              title: Download Template Disini.
+                # _nunjucks:
+                #   template: | 
+                #     Download Template {{ nama }} Disini.
+                #   on:
+                #     nama:
+                #       _state: url_jenis_surat.name
+              type: link
+            visible:
+                _ne:
+                  - _state: pengajuan.jenis_surat
+                  - null
+      - id: content_card
+        type: Card
+        properties:
+          hoverable: true
+        layout:
+          span: 16
+          contentGutter: 10
+        blocks:    
+          - id: icon
+            type: Icon
+            layout:
+              flex: 0 1 auto
+            properties:
+              size: 32
+              color: '#13c2c2'
+              name: AiOutlineAudit
+          - id: title
+            type: Title
+            layout:
+              flex: 1 1 auto
+            properties:
+              content:
+                _nunjucks:
+                  template: | 
+                    {{ nama }}
+                  on:
+                    nama:
+                      _if_none:
+                      - _state: jenis_surat.name
+                      - Form Pengajuan Surat Mahasiswa
+              level: 3
+          - id: box_permohonan_cuti
+            type: Box
+            properties:
+               style: 
+            layout:
+              # span: 16
+              contentJustify: left
+              contentGutter: 10
+            visible:
+                _eq:
+                  - _state: jenis_surat.name
+                  - Surat Permohon Cuti Akademik
+            blocks: 
+              _ref: pages/surat/components/form_surat_cuti.yaml
+              

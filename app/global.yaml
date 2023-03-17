@@ -1,0 +1,55 @@
+statuses:
+  - Draft Berkas
+  - Berkas Dibatalkan
+  - Berkas Dikirim
+  - Berkas Ditolak
+  - Berkas Disetujui
+  - Berkas Diproses
+  - Berkas Selesai
+  - Berkas Diambil
+# Maps of colors and icons for statuses and actions
+statusColors:
+  Draft Berkas: '#722ed1'
+  Berkas Dibatalkan: '#1890ff'
+  Berkas Dikirim: '#1890ff'
+  Berkas Ditolak: '#13c2c2'
+  Berkas Disetujui: '#faad14'
+  Berkas Diproses: '#faad14'
+  Berkas Selesai: '#bfbfbf'
+  Berkas Diambil: '#52c41a'
+
+statusIcons:
+  Draft Berkas: AiOutlineFile
+  Berkas Dibatalkan: AiOutlineFile
+  Berkas Dikirim: AiOutlineSend
+  Berkas Ditolak: AiOutlineCloseCircle
+  Berkas Disetujui: AiOutlineCheck
+  Berkas Diproses: AiOutlineCheck
+  Berkas Selesai: AiOutlineFileDone
+  Berkas Diambil: AiOutlineDeliveredProcedure
+
+actionColors:
+  Berkas Dibuat: '#722ed1'
+  Berkas Diproses: '#7cb305'
+  Berkas Dilihat: '#7cb305'
+  Berkas Dikomentari: '#7cb305'
+  Perubahan Status Menjadi Berkas Dibatalkan: '#1890ff'
+  Perubahan Status Menjadi Berkas Dikirim: '#1890ff'
+  Perubahan Status Menjadi Berkas Ditolak: '#13c2c2'
+  Perubahan Status Menjadi Berkas Disetujui: '#7cb305'
+  Perubahan Status Menjadi Berkas Diproses: '#7cb305'
+  Perubahan Status Menjadi Berkas Selesai: '#faad14'
+  Perubahan Status Menjadi Berkas Diambil: '#f5222d'
+
+actionIcons:
+  Berkas Dibuat: AiOutlinePlusCircle
+  Berkas Dilihat: AiOutlineEye
+  Berkas Diproses: AiOutlineEye
+  Berkas Dikomentari: AiOutlineComment  
+  Perubahan Status Menjadi Berkas Dibatalkan: AiOutlineSend
+  Perubahan Status Menjadi Berkas Dikirim: AiOutlineSend
+  Perubahan Status Menjadi Berkas Ditolak: AiOutlineCloseCircle
+  Perubahan Status Menjadi Berkas Disetujui: AiOutlineCheck
+  Perubahan Status Menjadi Berkas Diproses: AiOutlineCheck
+  Perubahan Status Menjadi Berkas Selesai: AiOutlineFileDone
+  Perubahan Status Menjadi Berkas Diambil: AiOutlineDeliveredProcedure

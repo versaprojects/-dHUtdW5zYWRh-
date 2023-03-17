@@ -1,0 +1,18 @@
+id: get_nik_nip
+type:  GoogleSheetGetOne
+connectionId: gs_data_user
+payload:
+  nik_nip:
+    _state: set_nik_nip
+  user:
+    _state: user
+properties:
+  filter:
+    _and:
+    nik_nip:
+      _payload: nik_nip
+    first_name:
+      _payload: user.profile.first_name
+    last_name:
+      _payload: user.profile.last_name
+    claimed: false

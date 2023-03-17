@@ -1,0 +1,88 @@
+id: user_avatar
+type: Box
+blocks:
+  # Show a login button if the user is not logged in.
+  - id: user_avatar_login_button
+    type: Button
+    visible:
+      _eq:
+        - _user: id
+        - null
+    properties:
+      type: default
+      shape: round
+      title: Login
+      icon: LoginOutlined
+    events:
+      onClick:
+        - id: login
+          type: Login
+  - id: user_profile_link
+    type: Box
+    visible:
+          _ne:
+            - _user: id
+            - null
+    layout:
+      contentGutter: 8
+      contentAlign: middle
+    events:
+      onClick:
+        - id: link_to_profile
+          type: Link
+          params:
+            pageId: profile
+    blocks:
+      - id: user_name
+        type: Html
+        layout:
+          flex: 0 1 auto
+        style:
+          color: black
+        visible:
+          _gt:
+            - _media: width
+            - 992
+        properties:
+          html:
+            _if_none:
+              - _user: profile.name
+              - _user: name
+          style:
+            color: '#fff'
+      - id: user_role
+        type: Html
+        layout:
+          flex: 0 1 auto
+        style:
+          color: black
+        visible:
+          _gt:
+            - _media: width
+            - 992
+        properties:
+          html:
+            _if_none:
+              - _nunjucks:
+                  template: |
+                    <b> ({{ role }}) </b>
+                  on:
+                    role:
+                      _user: roles
+              - _user: name
+          style:
+            color: '#fff'
+      - id: user_avatar
+        type: Avatar
+        layout:
+          flex: 0 1 auto
+        properties:
+          size: large
+          src:
+            _if_none:
+              - _user: profile.picture
+              - _user: image
+          alt:
+            _if_none:
+              - _user: profile.picture
+              - _user: image

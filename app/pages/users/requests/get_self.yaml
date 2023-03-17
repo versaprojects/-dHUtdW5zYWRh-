@@ -1,0 +1,13 @@
+id: get_self
+type: MongoDBAggregation
+connectionId: users
+payload:
+  user_id:
+    _user: id
+properties:
+  query:
+    _id._oid:
+      _payload: user_id
+  pipeline:
+    - $project:
+        add_roles: 1

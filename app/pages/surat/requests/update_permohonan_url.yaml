@@ -1,0 +1,16 @@
+id: update_permohonan_url
+type: MongoDBUpdateOne 
+connectionId: permohonan
+payload:
+  id:
+    _state: selected._id
+  url:
+    _state: selected.file
+properties:
+  filter:
+    _id:
+      _payload: id
+  update:
+    $set:
+      file:
+        _payload: url

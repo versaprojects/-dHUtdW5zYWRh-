@@ -1,0 +1,15 @@
+id: get_users
+type: MongoDBAggregation
+connectionId: users
+properties:
+  pipeline:
+    - $project:
+        email: 1
+        profile: 1
+        roles: 1
+        updated_at:
+          $dateToString:
+            date: $updated.timestamp
+            format: '%Y/%m/%d'
+    - $sort:
+        email: 1

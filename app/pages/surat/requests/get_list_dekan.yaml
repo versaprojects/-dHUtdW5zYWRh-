@@ -1,0 +1,50 @@
+id: get_list_dekan
+type: MongoDBAggregation 
+connectionId: permohonan
+payload:
+  # jenis_surat: 
+  #   jenis_1: Surat Permohon Cuti Akademik
+  #   jenis_2: Surat Peminjaman Ruang & Barang
+  status:
+    type_1: Berkas Disetujui 
+    # type_2: Berkas Dibatalkan
+properties:
+  pipeline:
+    - $match:
+        status: 
+          $eq: 
+            _payload: status.type_1
+        # $and:
+        #   - $or:
+        #       - jenis_surat: 
+        #           $eq: 
+        #             _payload: jenis_surat.jenis_1
+        #       - jenis_surat:
+        #           $eq: 
+        #             _payload: jenis_surat.jenis_2
+        #   - $and:
+        #       - status: 
+        #           $ne: 
+        #             _payload: status.type_1
+        #       - status: 
+        #           $ne: 
+        #             _payload: status.type_2
+    - $project:
+        tgl_pengajuan:
+          $dateToString:
+            date: $tgl_pengajuan
+            format: '%d/%m/%Y %H:%M'
+            timezone: "Asia/Jakarta"
+        nip: 1
+        nama: 1
+        jurusan: 1
+        phone: 1
+        jenis_surat: 1
+        file: 1
+        status: 1
+    - $sort:
+        tgl_pengajuan: -1 # Sort the list alphabetically according to the label 
+    # - $skip:
+    #     _payload: pagination.skip
+    # - $limit:
+    #     _payload: pagination.pageSize

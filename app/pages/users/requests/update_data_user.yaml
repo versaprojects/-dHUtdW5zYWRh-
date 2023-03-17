@@ -1,0 +1,33 @@
+id: update_nik_nip
+type:  GoogleSheetUpdateOne
+connectionId: gs_data_user
+payload:
+  nik_nip:
+    _state: set_nik_nip
+  user:
+    _state: user
+properties:
+  filter:
+    nik_nip:
+      _payload: nik_nip
+  update:
+    #claim_at:
+    #  _intl.dateTimeFormat:
+    #    on:
+    #      _date: now
+    #    locale: id
+    #    options:
+    #      weekday: long
+    #      year: numeric
+    #      month: long
+    #      day: numeric
+    #      hour: numeric
+    #      minute: numeric
+    claim_at:
+      _moment.format:
+        on:
+          _date: now
+        format: 'DD/MM/YYYY hh:mm:ss'
+    claim_by:
+      _payload: user.email
+    claimed: true

@@ -1,0 +1,361 @@
+id: persetujuan-surat-kaprodi
+type: PageHeaderMenu
+properties:
+  _ref:
+    path: shared/header.yaml
+    vars:
+      headerTitle: Persetujuan Surat Kepala Prodi
+requests:
+  - _ref: pages/surat/requests/get_list_kaprodi.yaml
+  - _ref: pages/surat/requests/get_permohonan.yaml
+  - _ref: pages/surat/requests/comment_permohonan.yaml
+  - _ref: pages/surat/requests/tolak_permohonan.yaml
+  - _ref: pages/surat/requests/setujui_permohonan.yaml
+  - _ref: pages/surat/requests/get_nomor_urut.yaml
+
+events:
+  onInit:
+    - id: fetch_permohonan
+      type: Request
+      params: get_list_kaprodi
+
+# layout:
+#   contentJustify: center
+
+areas:
+  footer:
+    blocks:
+      - _ref: shared/footer.yaml
+  header:
+    blocks:
+      - _ref: shared/users/user_avatar.yaml
+  content:
+    gutter: 10
+    blocks:
+      - id: breadcrumb
+        type: Breadcrumb
+        properties:
+          list:
+            - Persetujuan permohonan
+            - Pengajuan Surat (Kaprodi)
+      - id: max_width_box
+        type: Box
+        layout:
+          size: 1200
+        blocks:
+          - id: title
+            type: Title
+            layout:
+              flex: 1 0 auto
+            properties:
+              content: Persetujuan Surat
+              level: 2
+      - id: content_card
+        type: Card
+        layout:
+          span: 12
+        blocks:
+          - id: permohonan_mahasiswa
+            type: AgGridAlpine
+            properties:
+              rowData:
+                _request: get_list_kaprodi
+              pagination: true
+              defaultColDef:
+                sortable: true
+                resizable: true
+                filter: true
+              columnDefs:
+                - headerName: Tanggal Pengajuan
+                  field: tgl_pengajuan
+                  width: 150
+                - headerName: Jenis Surat
+                  field: jenis_surat
+                  width: 250
+                - headerName: Status
+                  field: status
+                  width: 200
+            events:
+              onRowClick:
+                - id: select_permohonan
+                  type: SetState
+                  params:
+                    selected:
+                        _id:
+                          _event: row._id
+                        _loading: true
+                - id: request_permohonan
+                  type: Request
+                  params: get_permohonan
+                - id: fetch_permohonan
+                  type: SetState
+                  params:
+                    selected:
+                      _request: get_permohonan.0
+                - id: request_no_urut
+                  type: Request
+                  params: get_nomor_urut
+                - id: fetch_no_urut
+                  type: SetState
+                  params: 
+                    no_urut:
+                      _request: get_nomor_urut
+      - id: content_card
+        type: Card
+        layout:
+          span: 12
+        blocks:
+          - id: result_box
+            type: Box
+            properties:
+              bordered: false
+            loading:
+              _eq:
+                - _state: selected._loading
+                - true
+            skeleton:
+              type: SkeletonParagraph
+              blocks:
+                - type: Skeleton
+                  properties:
+                    height: 220
+                    lines: 5
+            blocks:
+              - id: selected.not_selected
+                type: Result
+                visible:
+                  _and:
+                    - _eq:
+                        - _state: selected._id
+                        - null
+                    - _ne:
+                        - _state: selected._loading
+                        - true
+                properties:
+                  icon:
+                    name: AiOutlineContainer
+                    color: '#bfbfbf'
+                  title: Silahkan Pilih Surat
+                  subTitle: Tidak ada surat terpilih.
+              - id: selected.visible_box
+                type: Box
+                visible:
+                  _ne:
+                    - _state: selected._id
+                    - null
+                layout:
+                  contentGutter: 10
+                blocks:
+                  - id: selected.header_box
+                    type: Box
+                    layout:
+                      contentAlign: middle
+                      contentGutter: 10
+                    blocks:
+                      - id: selected.status_icon
+                        type: Icon
+                        layout:
+                          flex: 0 1 auto
+                        properties:
+                          size: 32
+                          color:
+                            _get:
+                              from:
+                                _global: statusColors
+                              key:
+                                _state: selected.status
+                          name:
+                            _get:
+                              from:
+                                _global: statusIcons
+                              key:
+                                _state: selected.status
+                      - id: selected.status
+                        type: Html
+                        layout:
+                          flex: 0 1 auto
+                        properties:
+                          html:
+                            _nunjucks:
+                              template: |
+                                <span>
+                                  {{ status }}
+                                </span>
+                              on:
+                                _state: selected
+                      # - id: try_operation
+                      #   type: Html
+                      #   style:
+                      #     fontSize: 12
+                      #   properties:
+                      #     html:
+                      #       _nunjucks:
+                      #         template: |
+                      #           <font style='font-size:24px' >
+                      #             <b>#{{ no_urut }} & {{ no_next }} : {{ nomor_surat }}</b>
+                      #           </font>
+                      #         on:
+                      #           no_urut:
+                      #             _state: no_urut.0.max_nomor_urut
+                      #           no_next:
+                      #             _sum:
+                      #               - _request: get_nomor_urut.0.max_nomor_urut.0
+                      #               - 1
+                      #           nomor_surat:
+                      #             _get_nomor_surat:
+                      #               nomorUrut:
+                      #                 _request: get_nomor_urut.0.max_nomor_urut
+                      #               kodeSurat: SPC
+                      - id: selected.no_surat
+                        type: Html
+                        # layout:
+                        #   flex: 1 1 auto
+                        visible:
+                          _ne:
+                            - _state: selected.nomor.0.no_surat
+                            - null
+                        properties:
+                          html:
+                            _nunjucks:
+                              template: |
+                                <font style='font-size:24px' >
+                                  <b>#{{ no_surat }}</b>
+                                </font>
+                              on:
+                                no_surat:
+                                  _state: selected.nomor.0.no_surat
+                      - id: selected.jenis_surat
+                        type: Html
+                        # layout:
+                        #   flex: 1 1 auto
+                        properties:
+                          html:
+                            _nunjucks:
+                              template: |
+                                <font style='font-size:24px' >
+                                  <b>#{{ jenis_surat }}</b>
+                                </font>
+                              on:
+                                _state: selected
+                      - _ref:
+                          path: pages/surat/components/action_box.yaml
+                          vars:
+                            rejectRequestParams: get_list_kaprodi
+                            approveRequestParams: get_list_kaprodi
+                      - id: selected_file_label
+                        type: Html
+                        properties:
+                          html:
+                            _nunjucks:
+                              template: |
+                                <font style='font-size:20px' >
+                                  <b>Lokasi File Surat Pengajuan:</b>
+                                </font>
+                      - id: selected.file
+                        type: Paragraph
+                        layout:
+                          flex: 1 1 auto
+                        properties:
+                          copyable: true
+                          content:
+                            _state: selected.file
+                        events:
+                          onCopy:
+                            - id: lihat_permohonan
+                              type: Request
+                              params: lihat_permohonan
+                            - id: refresh
+                              type: Request
+                              params: 
+                                - get_list_kaprodi
+                                - get_permohonan
+                            - id: refresh_detail
+                              type: SetState
+                              params:
+                                selected:
+                                  _request: get_permohonan.0
+                      - id: selected.timeline
+                        type: TimelineList
+                        properties:
+                          # mode: right
+                          data:
+                            _mql.aggregate:
+                              pipeline:
+                                - $addFields:
+                                    icons:
+                                      $objectToArray:
+                                        _global: actionIcons
+                                    colors:
+                                      $objectToArray:
+                                        _global: actionColors
+                                - $project:
+                                    icon:
+                                      $arrayElemAt:
+                                        - $icons.v
+                                        - $indexOfArray:
+                                            - $icons.k
+                                            - $action
+                                    color:
+                                      $arrayElemAt:
+                                        - $colors.v
+                                        - $indexOfArray:
+                                            - $colors.k
+                                            - $action
+                              on:
+                                _state: selected.timeline
+                        blocks:
+                          - id: selected.timeline.$.description
+                            type: Html
+                            style:
+                              fontSize: 12
+                            properties:
+                              html:
+                                _nunjucks:
+                                  template: |
+                                    <h3> {{ action }} </h3>
+                                    <p style="font-size: 10px;" ><i>{{ timestamp | date("lll") }} oleh: {{ actor }}</i></p>
+                                    <p>{{ comment }}</p>
+                                  on:
+                                    _state: selected.timeline.$
+                          
+          - id: selected.comment_modal
+            type: Modal
+            properties:
+              okText: Kirim
+            events:
+              onOk:
+                - id: validate
+                  type: Validate
+                  messages:
+                    error: A comment is required.
+                  params: selected.comment_input
+                - id: comment_permohonan
+                  type: Request
+                  params: comment_permohonan
+                - id: refresh
+                  type: Request
+                  params: 
+                    - get_list_kaprodi
+                    - get_permohonan
+                - id: refresh_detail
+                  type: SetState
+                  params:
+                    selected:
+                      _request: get_permohonan.0
+                - id: reset
+                  type: SetState
+                  params:
+                    selected.comment: null
+            blocks:
+              - id: selected.comment_modal_title
+                type: Markdown
+                style:
+                  marginBottom: 16px
+                properties:
+                  content: '#### Komentar'
+              - id: selected.comment
+                type: TextArea
+                required: true
+                properties:
+                  label:
+                    disabled: true    

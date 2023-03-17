@@ -1,0 +1,20 @@
+id: get_nomor_urut
+type: MongoDBAggregation 
+connectionId: permohonan
+payload:
+  jenis_surat:
+    _state: selected.jenis_surat
+  status: Berkas Disetujui
+properties:
+  pipeline:
+    - $match:
+        jenis_surat:
+          _payload: jenis_surat
+        status:
+          _payload: status
+    - $group:
+        _id: null
+        max_nomor_urut: 
+          $max: $nomor.no_urut
+    - $project:
+        max_nomor_urut: 1

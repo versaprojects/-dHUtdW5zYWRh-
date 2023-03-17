@@ -1,0 +1,7 @@
+  header:
+    theme: dark
+  menu:
+    style:
+      textAlign: center
+  title: 
+    _var: headerTitle

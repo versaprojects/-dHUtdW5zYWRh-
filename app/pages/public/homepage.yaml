@@ -1,0 +1,33 @@
+id: homepage
+type: PageHCF
+properties:
+  _ref:
+    path: shared/header.yaml
+    vars:
+      headerTitle: Aplikasi Persuratan UNSADA
+areas:
+  content:
+    blocks:
+      - _ref: pages/public/components/home-header.yaml
+      - _ref: pages/public/components/home-content.yaml
+      - id: footer_card
+        type: Card
+        properties:
+          bordered: false
+          bodyStyle:
+            padding: 10
+          style:
+            background-color: '#273272'
+        blocks:
+          - id: box_header
+            type: Box
+            blocks:
+              - id: hero_content
+                type: Html
+                properties:
+                  html: |
+                    <a href="#">
+                      <p style="color: #fff;">Made by /Ꮴᴇʀꜱᴀʟɪᴢᴇ/</p>
+                    </a>
+                  style:
+                    text-align: center

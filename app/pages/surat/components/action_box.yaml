@@ -1,0 +1,218 @@
+id: selected.actions_box
+type: Box
+layout:
+  contentGutter: 8
+blocks:
+  - id: selected.reject
+    type: Button
+    layout:
+      flex: 1 1 auto
+    properties:
+      title: Tolak
+      block: true
+      type: default
+      icon: AiOutlineRetweet
+      disabled: 
+        _or:
+          - _eq:
+            - _state: selected.status
+            - Berkas Disetujui
+          - _eq:
+            - _state: selected.status
+            - Berkas Ditolak
+          - _eq:
+            - _state: selected.status
+            - Berkas Diproses
+          - _eq:
+            - _state: selected.status
+            - Berkas Selesai
+          - _eq:
+            - _state: selected.status
+            - Berkas Diambil
+    events:
+      onClick:
+        - id: tolak_permohonan
+          type: Request
+          params: tolak_permohonan
+        - id: refresh
+          type: Request
+          params: 
+            - _var: rejectRequestParams
+          #   - get_list_tu
+            - get_permohonan
+        - id: refresh_detail
+          type: SetState
+          params:
+            selected:
+              _request: get_permohonan.0
+  - id: selected.approve
+    type: Button
+    layout:
+      flex: 1 1 auto
+    properties:
+      title: Setujui
+      block: true
+      type: default
+      icon: AiOutlineRetweet
+      disabled: 
+        _or:
+          - _eq:
+            - _state: selected.status
+            - Berkas Disetujui
+          - _eq:
+            - _state: selected.status
+            - Berkas Ditolak
+          - _eq:
+            - _state: selected.status
+            - Berkas Diproses
+          - _eq:
+            - _state: selected.status
+            - Berkas Selesai
+          - _eq:
+            - _state: selected.status
+            - Berkas Diambil
+    events:
+      onClick:
+        - id: set_nomor_surat
+          type: SetState
+          skip:
+            _ne:
+              - _state: selected.status
+              - Berkas Dikirim
+          params:
+            generate_nomor:
+              no_urut:
+                _sum:
+                  - _request: get_nomor_urut.0.max_nomor_urut.0
+                  - 1
+              no_surat:
+                _get_nomor_surat:
+                  nomorUrut:
+                    _request: get_nomor_urut.0.max_nomor_urut
+                  kodeSurat:
+                    _state: selected.code
+        - id: setujui_permohonan
+          type: Request
+          params: setujui_permohonan
+        - id: refresh
+          type: Request
+          params: 
+              - _var: approveRequestParams
+            #   - get_list_tu
+              - get_permohonan
+        - id: refresh_detail
+          type: SetState
+          params:
+            selected:
+              _request: get_permohonan.0
+  - id: selected.comment
+    type: Button
+    layout:
+      flex: 1 1 auto
+    properties:
+      title: Komentar
+      block: true
+      type: default
+      icon: AiOutlineRetweet
+      disabled:
+        _or:
+          - _eq:
+            - _state: selected.status
+            - Berkas Diambil
+    events:
+      onClick:
+        - id: open_comment_modal
+          type: CallMethod
+          params:
+            blockId: selected.comment_modal
+            method: toggleOpen
+  - id: selected.process
+    type: Button
+    visible: 
+        _and:
+          - _eq:
+            - _state: selected.status
+            - Berkas Disetujui
+          - _eq:
+            - _user: roles
+            - Tata Usaha
+    layout:
+      flex: 1 1 auto
+    properties:
+      title: Proses
+      block: true
+      type: default
+      icon: AiOutlineRetweet
+    events:
+      onClick:
+        - id: proses_permohonan
+          type: Request
+          params: proses_permohonan
+        - id: refresh
+          type: Request
+          params: 
+            - _var: processRequestParams
+          #   - get_list_tu
+            - get_permohonan
+        - id: refresh_detail
+          type: SetState
+          params:
+            selected:
+              _request: get_permohonan.0
+  - id: selected.finish
+    type: Button
+    visible: 
+        _and:
+          - _eq:
+            - _state: selected.status
+            - Berkas Diproses
+          - _eq:
+            - _user: roles
+            - Tata Usaha
+    layout:
+      flex: 1 1 auto
+    properties:
+      title: Selesai
+      block: true
+      type: default
+      icon: AiOutlineRetweet
+    events:
+      onClick:
+        - id: selesai_permohonan
+          type: Request
+          params: selesai_permohonan
+        - id: refresh
+          type: Request
+          params: 
+            - _var: processRequestParams
+          #   - get_list_tu
+            - get_permohonan
+        - id: refresh_detail
+          type: SetState
+          params:
+            selected:
+              _request: get_permohonan.0
+  - id: selected.done
+    type: Button
+    visible: 
+        _and:
+          - _eq:
+            - _state: selected.status
+            - Berkas Selesai
+          - _eq:
+            - _user: roles
+            - Tata Usaha
+    layout:
+      flex: 1 1 auto
+    properties:
+      title: Diambil
+      block: true
+      type: default
+      icon: AiOutlineRetweet
+    events:
+      onClick:
+        - id: open_comment_modal
+          type: CallMethod
+          params:
+            blockId: selected.done_modal
+            method: toggleOpen

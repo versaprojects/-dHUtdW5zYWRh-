@@ -1,0 +1,31 @@
+id: proses_permohonan
+type: MongoDBUpdateOne 
+connectionId: permohonan
+payload:
+  id:
+    _state: selected._id
+  status: Berkas Diproses
+  user:
+    _user: profile.name
+properties:
+  filter:
+    _id:
+      _payload: id
+  update:
+    $set:
+      status:
+        _payload: status
+    $push:
+      timeline:
+        action:
+          _nunjucks:
+            template: 'Perubahan Status Menjadi {{ status }}'
+            on:
+              status:
+                _payload: status
+        status:
+          _payload: status
+        actor:
+          _payload: user
+        timestamp:
+          _date: now

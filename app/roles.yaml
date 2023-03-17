@@ -1,0 +1,45 @@
+- value: User Admin
+  disabled: 
+    _or:
+      - _eq:
+        - _state: user.roles
+        - Mahasiswa
+- value: Pembimbing Akademik
+  disabled: 
+    _or:
+      - _eq:
+        - _user: roles
+        - Mahasiswa
+- value: Dosen
+  disabled: 
+    _eq:
+      - _state: user.roles
+      - Mahasiswa
+- value: Dekan
+  disabled: 
+    _or:
+      - _eq:
+        - _user: roles
+        - Mahasiswa
+- value: Kepala Prodi
+  disabled: 
+    _or:
+      - _eq:
+        - _user: roles
+        - Mahasiswa
+- value: Tata Usaha
+  disabled: 
+    _eq:
+      - _state: user.roles
+      - Mahasiswa
+- value: Mahasiswa
+  disabled: 
+    _or:
+      - _eq:
+        - _state: user.roles
+        - Dosen
+      - _eq:
+        - _state: user.add_roles.0
+        - Mahasiswa
+# user disable
+- value: User Disabled

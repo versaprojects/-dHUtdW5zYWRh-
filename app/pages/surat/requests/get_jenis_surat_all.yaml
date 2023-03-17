@@ -1,0 +1,16 @@
+id: get_jenis_surat_all
+type: MongoDBAggregation
+connectionId: jenis_surat
+properties:
+  pipeline:
+    - $project:
+        name: 1
+        type: 1
+        code: 1
+        # roles: 1
+        # updated_at:
+        #   $dateToString:
+        #     date: $updated.timestamp
+        #     format: '%Y/%m/%d'
+    # - $sort:
+    #     email: 1

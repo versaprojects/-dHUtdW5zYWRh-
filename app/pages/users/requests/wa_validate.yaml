@@ -1,0 +1,13 @@
+id: post_wa_validate
+type: AxiosHttp
+connectionId: fonnte
+payload:
+  target:
+    _state: find_number
+properties:
+  url: /validate
+  method: post
+  data:
+    target: 
+      _payload: target
+    countryCode: 62

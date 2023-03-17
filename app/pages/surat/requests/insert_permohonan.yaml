@@ -1,0 +1,49 @@
+id: insert_permohonan
+type:  MongoDBInsertOne
+connectionId: permohonan
+payload:
+  pengajuan:
+    _state: pengajuan
+  user:
+    _user: id
+  actor:
+    _user: profile.name
+  # date_now:
+  #   _nunjucks:
+  #     template: |
+  #       {{ timestamp | date("YYYY-MM-DD hh:mm") }}
+  #     on:
+  #       timestamp:
+  #         _date: now
+properties:
+  doc:
+    _object.assign:
+      - _payload: pengajuan
+      - user_id:
+          _payload: user
+        tgl_pengajuan:
+          _date: now
+        timeline:
+          - action: Berkas Dibuat
+            status: 
+              _payload: pengajuan.status
+            actor:
+              _payload: actor
+            timestamp:
+              _date: now
+    # nama:
+    #   _payload: pengajuan.nama
+    # nik_nip:
+    #   _payload: pengajuan.nip
+    # jurusan:
+    #   _payload: pengajuan.jurusan
+    # phone:
+    #   _payload: pengajuan.phone
+    # address:
+    #   _payload: pengajuan.address
+    # jenis_surat:
+    #   _payload: pengajuan.jenis_surat
+    # file:
+    #   _payload: pengajuan.file
+    # status:
+    #   _payload: pengajuan.status

@@ -1,0 +1,19 @@
+id: change_role
+type: MongoDBUpdateOne
+connectionId: users
+payload:
+  user:
+    _state: user
+  id:
+    _user: id
+  role:
+    _state: change_roles
+properties:
+  filter:
+    _id:
+      _oid:
+        _payload: id
+  update:
+    $set:
+      roles:
+        _payload: role

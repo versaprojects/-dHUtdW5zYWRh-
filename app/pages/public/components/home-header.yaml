@@ -1,0 +1,22 @@
+id: header_card
+type: Card
+properties:
+  bordered: false
+  bodyStyle:
+    padding: 10
+  style:
+    background-color: '#273272'
+blocks:
+  - id: box_header
+    type: Box
+    blocks:
+      - id: hero_content
+        type: Html
+        properties:
+          html: |
+            <div style="display: flex; align-items: center; justify-content: center; color: #fff; ">
+              <a href="https://unsada.ac.id/">
+                <img src="https://i.imgur.com/3eTKJe2.png" alt="Gambar dengan Tulisan" style="width: 75px; height: auto; margin-right: 20px;">
+              </a>
+              <h2 style="color: #fff;">Aplikasi Persuratan - UNSADA</h2>
+            </div>

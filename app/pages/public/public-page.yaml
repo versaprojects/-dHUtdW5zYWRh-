@@ -1,0 +1,38 @@
+id: public-page
+type: PageHeaderMenu
+properties:
+  _ref:
+    path: shared/header.yaml
+    vars:
+      headerTitle: Aplikasi Pengajuan Surat
+requests:
+- _ref: pages/users/requests/wa_validate.yaml
+
+events:
+  onInit:
+    - id: link
+      type: SetState
+      params:
+        nomor_surat:
+          _log:
+           _get_nomor_surat:
+                nomorUrut: 10
+                kodeSurat: SPD
+
+areas:
+  footer:
+    blocks:
+      - _ref: shared/footer.yaml
+  header:
+    blocks:
+      - _ref: shared/users/user_avatar.yaml
+  
+  content:
+    blocks:
+      - id: result
+        type: Result
+        properties:
+          icon:
+            name: GlobalOutlined
+          title: Public
+          subTitle: This page is a public page.

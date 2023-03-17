@@ -1,0 +1,38 @@
+id: setujui_permohonan
+type: MongoDBUpdateOne 
+connectionId: permohonan
+payload:
+  id:
+    _state: selected._id
+  status: Berkas Disetujui
+  user:
+    _user: profile.name
+  generate_nomor:
+    _state: generate_nomor
+properties:
+  filter:
+    _id:
+      _payload: id
+  update:
+    $set:
+      status:
+        _payload: status
+    $push:
+      nomor:
+        no_urut:
+          _payload: generate_nomor.no_urut
+        no_surat:
+          _payload: generate_nomor.no_surat
+      timeline:
+        action:
+          _nunjucks:
+            template: 'Perubahan Status Menjadi {{ status }}'
+            on:
+              status:
+                _payload: status
+        status:
+          _payload: status
+        actor:
+          _payload: user
+        timestamp:
+          _date: now
