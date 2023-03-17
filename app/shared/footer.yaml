@@ -4,6 +4,8 @@ properties:
   bordered: false
   bodyStyle:
     padding: 10
+  style:
+    border-radius: 0
 blocks:
   - id: box_header
     type: Box

@@ -18,6 +18,7 @@ areas:
             padding: 10
           style:
             background-color: '#273272'
+            border-radius: 0
         blocks:
           - id: box_header
             type: Box
