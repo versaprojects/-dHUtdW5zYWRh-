@@ -253,29 +253,28 @@ areas:
                                   <b>Lokasi File Surat Pengajuan:</b>
                                 </font>
                       - id: selected.file
-                        type: ParagraphInput
+                        type: Paragraph
                         layout:
                           flex: 1 1 auto
                         properties:
                           copyable: true
-                          editable: false
-                            # _ne:
-                            #   - _state: selected.status
-                            #   - Berkas Dikirim
-                        validate:
-                          - status: error
-                            message: URL yang anda masukan belum sesuai.
-                            pass:
-                              _regex: '^https:\/\/.*'
+                          content:
+                            _state: selected.file
                         events:
-                          onChange:
-                            - id: validate # Then validate our webform input.
-                              type: Validate
-                              messages:
-                                error: Mohon periksa kembali informasi yang Anda masukkan.
-                            - id: update_url
+                          onCopy:
+                            - id: lihat_permohonan
                               type: Request
-                              params: update_permohonan_url
+                              params: lihat_permohonan
+                            - id: refresh
+                              type: Request
+                              params: 
+                                - get_list_pa
+                                - get_permohonan
+                            - id: refresh_detail
+                              type: SetState
+                              params:
+                                selected:
+                                  _request: get_permohonan.0
                       - id: selected.timeline
                         type: TimelineList
                         properties:

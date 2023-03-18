@@ -35,4 +35,11 @@ areas:
           icon:
             name: GlobalOutlined
           title: Public
-          subTitle: This page is a public page.
+          subTitle: 'This page is a public page. you can login with account below:'
+      - id: selected.file
+        type: Paragraph
+        layout:
+          flex: 1 1 auto
+        properties:
+          copyable: true
+          content: test@mail.com/ny78A9jF9ub6Z8a
