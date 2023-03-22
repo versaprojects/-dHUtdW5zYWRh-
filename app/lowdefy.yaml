@@ -3,10 +3,6 @@ version: 0.0.0
 license: MIT
 name: TU Unsada
 plugins:
-  # - name: 'plugin-times-eleven-operator'
-  #   version: 'workspace:*'
-  # - name: 'plugin-base64-image-url'
-  #   version: 'workspace:*'
   - name: 'plugin-get-nomor-surat'
     version: 'workspace:*'
 config:

@@ -10,7 +10,9 @@ ENV LOWDEFY_BUILD_OUTPUT_STANDALONE 1
 RUN corepack enable
 
 # TODO: Change config-directory (./app) as appropriate here
-RUN pnpx lowdefy@4.0.0-rc.5 build --config-directory ./app --log-level=debug
+RUN pnpx lowdefy@rc build --config-directory ./app --log-level=debug
+
+RUN pnpm --filter=@lowdefy/server --prod deploy ./deploy
 
 FROM node:18-alpine AS runner
 
@@ -19,20 +21,17 @@ ENV NEXT_TELEMETRY_DISABLED 1
 
 WORKDIR /lowdefy
 
+RUN corepack enable
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 lowdefy
 
 # TODO: Change from-directory (/lowdefy/app/.lowdefy/server/public) as appropriate here
-COPY --from=builder /lowdefy/app/.lowdefy/server/public ./public
+COPY --from=builder --chown=lowdefy:nodejs /lowdefy/app/.lowdefy/server/public ./public
 # TODO: Change from-directory (/lowdefy/app/.lowdefy/server/.next/standalone) as appropriate here
 COPY --from=builder --chown=lowdefy:nodejs /lowdefy/app/.lowdefy/server/.next/standalone ./
+# COPY --from=builder --chown=lowdefy:nodejs /lowdefy/app/.env ./
 
-# COPY --from=builder /lowdefy/app/.lowdefy/server/next.config.js ./
-# COPY --from=builder /lowdefy/app/.lowdefy/server/package.json ./package.json
-# COPY --from=builder /lowdefy/app/.lowdefy/server/build ./build
-# COPY --from=builder --chown=lowdefy:nodejs /lowdefy/app/.lowdefy/server/.next/static ./.next/static
-
-USER lowdefy
+COPY --from=builder --chown=lowdefy:nodejs /lowdefy/deploy/node_modules ./node_modules
 
 EXPOSE 3000
 
