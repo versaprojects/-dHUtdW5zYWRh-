@@ -1,0 +1,18 @@
+label: 
+  _var: labelData
+style: 
+  fontWeight:
+    _if_none:
+      - _user:
+          _var: userData
+      - bold
+  color:
+    _if_none:
+      - _user: 
+          _var: userData
+      - red
+value:
+  _if_none:
+    - _user:
+        _var: userData
+    - (Not Set)

@@ -10,6 +10,7 @@ requests:
   - _ref: pages/surat/requests/get_jenis_surat.yaml
   - _ref: pages/surat/requests/get_jenis_surat_one.yaml
   - _ref: pages/surat/requests/insert_permohonan.yaml
+  - _ref: pages/surat/requests/get_parent_prodi.yaml
 
 events:
   onInit:
@@ -25,6 +26,9 @@ events:
       params: 
         jenis_surat:
           _request: get_jenis_surat_one
+    - id: get_parent_prodi
+      type: Request
+      params: get_parent_prodi
   onMount:
     - id: fetch_user_data
       type: SetState
@@ -32,14 +36,16 @@ events:
         pengajuan.nama:
           _user: profile.name
         pengajuan.nip:
-          _user: nik_nip
+          _user: identity.number
         pengajuan.jurusan:
-          _user: profile.jurusan
+          _user: identity.prodi
         pengajuan.phone:
           _user: profile.phone
         pengajuan.address:
           _user: profile.address
         pengajuan.file: null
+        pengajuan.tujuan:
+          _request: get_parent_prodi.0.value
 
 areas:
   footer:
@@ -102,32 +108,32 @@ areas:
                   params: 
                     jenis_surat:
                       _request: get_jenis_surat_one
-          - id: jenis_surat
-            type: Button
-            style:
-                padding: 15
-            loading:
-              _eq:
-                - _state: jenis_surat
-                - null
-            properties:
-              # block: true
-              size: medium
-              href: 
-                _state: jenis_surat.template
-              icon: AiFillFile
-              title: Download Template Disini.
-                # _nunjucks:
-                #   template: | 
-                #     Download Template {{ nama }} Disini.
-                #   on:
-                #     nama:
-                #       _state: url_jenis_surat.name
-              type: link
-            visible:
-                _ne:
-                  - _state: pengajuan.jenis_surat
-                  - null
+          # - id: jenis_surat
+          #   type: Button
+          #   style:
+          #       padding: 15
+          #   loading:
+          #     _eq:
+          #       - _state: jenis_surat
+          #       - null
+          #   properties:
+          #     # block: true
+          #     size: medium
+          #     href: 
+          #       _state: jenis_surat.template
+          #     icon: AiFillFile
+          #     title: Download Template Disini.
+          #       # _nunjucks:
+          #       #   template: | 
+          #       #     Download Template {{ nama }} Disini.
+          #       #   on:
+          #       #     nama:
+          #       #       _state: url_jenis_surat.name
+          #     type: link
+          #   visible:
+          #       _ne:
+          #         - _state: pengajuan.jenis_surat
+          #         - null
       - id: content_card
         type: Card
         properties:

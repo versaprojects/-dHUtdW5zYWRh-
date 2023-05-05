@@ -1,3 +1,14 @@
+- id: pengajuan.tujuan
+  type: TextInput
+  layout:
+    span: 12
+    sm:
+      span: 12
+  properties:
+    # inputStyle:
+    #   borderRadius: 10
+    disabled: true
+    title: Ketua Jurusan
 - id: pengajuan.nama
   type: TextInput
   layout:
@@ -59,44 +70,92 @@
     style: 
       margin-top: 15
     bordered: false
-  layout:
-    span: 12
+  events:
+    onClick:
+      - id: edit_profile_link
+        type: Link
+        params: edit-profile
   blocks:
     - id: block_alert
       type: Alert
       properties:
         message: Data pemohon dapat dirubah melalui menu Profile
         type: warning
-- id: contact_box
-  type: Box
-  properties:
-    style:
-      text-align: center
-  blocks:
-    - id: block_id
-      type: Button
-      properties:
-        block: true
-        href: "/edit-profile"
-        icon: AiFillEdit
-        title: Klik disini untuk merubah Data.
-        type: link
-- id: pengajuan.file
-  type: TextInput
-  # layout:
-  #   span: 12
-  #   sm:
-  #     span: 12
+# - id: contact_box
+#   type: Box
+#   properties:
+#     style:
+#       text-align: center
+#   blocks:
+#     - id: block_id
+#       type: Button
+#       properties:
+#         block: true
+#         href: "/edit-profile"
+#         icon: AiFillEdit
+#         title: Klik disini untuk merubah Data.
+#         type: link
+- id: pengajuan.durasi
+  type: NumberInput
+  layout:
+    span: 12
+    sm:
+      span: 12
   properties:
     # inputStyle:
     #   borderRadius: 10
     # disabled: true
-    label:
-      extra: Pastikan URL yang diinput diawali dengan https:// & telah memberikan share akses
-    title: URL Draft Pengajuan
-  validate:
-    - status: error
-      message: URL yang anda masukan belum sesuai.
-      pass:
-        _regex: '^https:\/\/.*'
+    min: 1
+    max: 8
+    placeholder: Semester
+    title: Lama Cuti (Semester)
+- id: pengajuan.ta
+  type: Selector
+  layout:
+    span: 12
+    sm:
+      span: 12
+  properties:
+    title: Tahun Ajaran
+    placeholder: Pilih Tahun Ajaran
+    options:
+      - _nunjucks:
+          template: |
+            {{ tahun_1 }} / {{ tahun_2 }}
+          on:
+            tahun_1:
+              _sum:
+                - _date.getFullYear:
+                    _date: now
+                - -1
+            tahun_2:
+              _sum:
+                - _date.getFullYear:
+                    _date: now
+                - 0
+      - _nunjucks:
+          template: |
+            {{ tahun_1 }} / {{ tahun_2 }}
+          on:
+            tahun_1:
+              _sum:
+                - _date.getFullYear:
+                    _date: now
+                - 0
+            tahun_2:
+              _sum:
+                - _date.getFullYear:
+                    _date: now
+                - 1
+- id: alasan
+  type: ControlledList
+  properties:
+    title: Alasan Cuti
+    noDataTitle: Tambahkan Alasan Cuti
+    addItemButton:
+      title: Tambah Alasan
+      type: link
+  blocks:
+    - id: alasan.$
+      type: ParagraphInput
 - _ref: pages/surat/components/form_block_save.yaml

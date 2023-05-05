@@ -1,21 +1,12 @@
-id: footer_card
-type: Card
-properties:
-  bordered: false
-  bodyStyle:
-    padding: 10
-  style:
-    border-radius: 0
+id: footer_box
+type: Box
 blocks:
-  - id: box_header
-    type: Box
-    blocks:
-      - id: hero_content
-        type: Html
-        properties:
-          html: |
-            <a href="#">
-              <p style="color: #273272;">Made by /Ꮴᴇʀꜱᴀʟɪᴢᴇ/</p>
-            </a>
-          style:
-            text-align: center
+  - id: hero_content
+    type: Html
+    properties:
+      html: |
+        <a href="#">
+          <p style="color: #273272;">Made by /Ꮴᴇʀꜱᴀʟɪᴢᴇ/</p>
+        </a>
+      style:
+        text-align: center

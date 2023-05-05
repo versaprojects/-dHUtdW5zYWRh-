@@ -12,6 +12,7 @@ properties:
     projection:
       image: 1
       email: 1
+      identity: 1
       profile: 1
       roles: 1
-      add_roles: 1
+      roles-all: 1

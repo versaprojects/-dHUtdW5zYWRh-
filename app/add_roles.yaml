@@ -6,32 +6,19 @@
         - Mahasiswa
 - value: Pembimbing Akademik
   disabled: 
-    _or:
-      - _eq:
-        - _user: roles
-        - Mahasiswa
+    _ref: logics/isMahasiswa.yaml
 - value: Dosen
   disabled: 
-    _eq:
-      - _state: user.roles
-      - Mahasiswa
+    _ref: logics/isMahasiswa.yaml
 - value: Dekan
   disabled: 
-    _or:
-      - _eq:
-        - _user: roles
-        - Mahasiswa
+    _ref: logics/isMahasiswa.yaml
 - value: Kepala Prodi
   disabled: 
-    _or:
-      - _eq:
-        - _user: roles
-        - Mahasiswa
+    _ref: logics/isMahasiswa.yaml
 - value: Tata Usaha
   disabled: 
-    _eq:
-      - _state: user.roles
-      - Mahasiswa
+    _ref: logics/isMahasiswa.yaml
 - value: Mahasiswa
   disabled: 
     _or:
@@ -39,5 +26,5 @@
         - _state: user.roles
         - Dosen
       - _eq:
-        - _state: user.add_roles.0
+        - _state: user.roles-all.0
         - Mahasiswa

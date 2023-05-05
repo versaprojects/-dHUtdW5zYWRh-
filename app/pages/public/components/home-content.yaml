@@ -5,7 +5,7 @@ style:
   height: 100vh
   position: relative
   text-align: center
-  background-image: url("https://i.imgur.com/ZbVW05o.jpeg"), linear-gradient(rgba(45,43,109,0.7),rgba(45,43,109,0.7))
+  background-image: url("https://i.imgur.com/rqRh9kH.jpeg"), linear-gradient(rgba(45,43,109,0.7),rgba(45,43,109,0.7))
   background-size: cover
   background-attachment: fixed
   background-position: center

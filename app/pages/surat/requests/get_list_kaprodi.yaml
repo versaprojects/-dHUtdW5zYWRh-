@@ -8,12 +8,18 @@ payload:
   status:
     type_1: Berkas Disetujui 
     # type_2: Berkas Dibatalkan
+  code:
+    _user: identity.code
 properties:
   pipeline:
     - $match:
-        status: 
-          $eq: 
-            _payload: status.type_1
+        $and:
+          - status: 
+              $eq: 
+                _payload: status.type_1
+          - code: 
+              $eq: 
+                _payload: code
         # $and:
         #   - $or:
         #       - jenis_surat: 
@@ -43,7 +49,7 @@ properties:
         file: 1
         status: 1
     - $sort:
-        tgl_pengajuan: -1 # Sort the list alphabetically according to the label 
+        tgl_pengajuan: 1 # Sort the list alphabetically according to the label 
     # - $skip:
     #     _payload: pagination.skip
     # - $limit:

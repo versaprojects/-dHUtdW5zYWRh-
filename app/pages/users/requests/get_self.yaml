@@ -10,4 +10,4 @@ properties:
       _payload: user_id
   pipeline:
     - $project:
-        add_roles: 1
+        roles-all: 1

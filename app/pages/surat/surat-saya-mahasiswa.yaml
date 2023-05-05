@@ -8,6 +8,7 @@ properties:
 requests:
   - _ref: pages/surat/requests/get_permohonan_mahasiswa.yaml
   - _ref: pages/surat/requests/get_permohonan.yaml
+  - _ref: pages/surat/requests/get_permohonan_one.yaml
   - _ref: pages/surat/requests/update_permohonan_url.yaml
   - _ref: pages/surat/requests/kirim_permohonan.yaml
   - _ref: pages/surat/requests/batalkan_permohonan.yaml
@@ -17,6 +18,12 @@ events:
     - id: fetch_permohonan_mahasiswa
       type: Request
       params: get_permohonan_mahasiswa
+    - id: empty_state
+      type: SetState
+      params:
+        selected:
+          _id: null
+          _loading: false
 
 # layout:
 #   contentJustify: center
@@ -85,12 +92,12 @@ areas:
                         _loading: true
                 - id: request_permohonan
                   type: Request
-                  params: get_permohonan
+                  params: get_permohonan_one
                 - id: fetch_permohonan
                   type: SetState
                   params:
                     selected:
-                      _request: get_permohonan.0
+                      _request: get_permohonan_one
           # - id: permohonan_mahasiswa_pagination
           #   type: Pagination
           #   style:
@@ -305,13 +312,13 @@ areas:
                           data:
                             _mql.aggregate:
                               pipeline:
-                                # - $addFields:
-                                #     icons:
-                                #       $objectToArray:
-                                #         _global: actionIcons
-                                #     colors:
-                                #       $objectToArray:
-                                #         _global: actionColors
+                                - $addFields:
+                                    icons:
+                                      $objectToArray:
+                                        _global: actionIcons
+                                    colors:
+                                      $objectToArray:
+                                        _global: actionColors
                                 - $project:
                                     icon:
                                       $arrayElemAt:

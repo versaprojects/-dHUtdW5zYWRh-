@@ -43,7 +43,7 @@ properties:
         file: 1
         status: 1
     - $sort:
-        tgl_pengajuan: -1 # Sort the list alphabetically according to the label 
+        tgl_pengajuan: 1 # Sort the list alphabetically according to the label 
     # - $skip:
     #     _payload: pagination.skip
     # - $limit:

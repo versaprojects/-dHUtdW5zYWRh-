@@ -1,0 +1,30 @@
+id: get_permohonan_one
+type: MongoDBFindOne 
+connectionId: permohonan
+payload:
+  id:
+    _state: selected._id
+properties:
+  query:
+    _id:
+      _payload: id
+  pipeline:
+    # - $match:
+    #     _id:
+    #       _payload: id
+    - $project:
+        tgl_pengajuan:
+          $dateToString:
+            date: $tgl_pengajuan
+            format: '%d/%m/%Y %H:%M'
+            timezone: "Asia/Jakarta"
+        nama: 1
+        nomor: 1
+        jenis_surat: 1
+        code: 1
+        file: 1
+        status: 1
+        timeline:
+           $reverseArray: $timeline
+    # - $sort:
+    #     tgl_pengajuan: 1 # Sort the list alphabetically according to the label

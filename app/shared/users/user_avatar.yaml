@@ -68,7 +68,9 @@ blocks:
                     <b> ({{ role }}) </b>
                   on:
                     role:
-                      _user: roles
+                      _if_none:
+                        - _user: roles
+                        - Belum Terverifikasi
               - _user: name
           style:
             color: '#fff'

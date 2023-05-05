@@ -1,10 +1,13 @@
-lowdefy: 4.0.0-rc.5
+lowdefy: 4.0.0-rc.7
 version: 0.0.0
 license: MIT
 name: TU Unsada
 plugins:
   - name: 'plugin-get-nomor-surat'
     version: 'workspace:*'
+  # - name: 'plugin-custom-block'
+  #   version: 'workspace:*'
+    
 config:
   homePageId: homepage
 auth:
@@ -39,10 +42,10 @@ auth:
           _secret: AUTH0_ISSUER
   userFields:
     id: _id #field in users table
-    roles: roles #field in users table
+    identity: identity
     profile: profile #field in users table
-    nik_nip: nik_nip
-    add_roles: add_roles
+    roles: roles #field in users table
+    roles-all: roles-all #field in users table
   pages:
     protected: true
     public:
@@ -64,9 +67,15 @@ auth:
       - surat-saya-dosen
       Pembimbing Akademik:
       - persetujuan-surat-pa
-      Kepala Prodi:
+      Kepala Program Studi:
       - persetujuan-surat-kaprodi
       Dekan:
+      - persetujuan-surat-dekan
+      Wakil Dekan 1:
+      - persetujuan-surat-dekan
+      Wakil Dekan 2:
+      - persetujuan-surat-dekan
+      Wakil Dekan 3:
       - persetujuan-surat-dekan
       Tata Usaha:
       - persetujuan-surat-tu

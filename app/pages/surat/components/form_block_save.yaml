@@ -32,6 +32,10 @@ blocks:
               status: Draft Berkas
               code:
                 _state: jenis_surat.code
+              dosen_pa:
+                _if_none:
+                  - _user: identity.pa
+                  - '-'
         - id: insert_pengajuan
           type: Request
           params: insert_permohonan
@@ -63,6 +67,10 @@ blocks:
               status: Berkas Dikirim
               code:
                 _state: jenis_surat.code
+              dosen_pa:
+                _if_none:
+                  - _user: identity.pa
+                  - '-'
         - id: insert_pengajuan
           type: Request
           params: insert_permohonan

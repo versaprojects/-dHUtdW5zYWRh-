@@ -9,17 +9,11 @@ properties:
 requests:
   - _ref: pages/users/requests/change_role.yaml
 
-# events:
-#   onInit:
-#     - id: init
-#       type: Request
-#       params: change_role
-
 layout:
   contentJustify: center
 areas:
   footer:
-    blocks:
+    blocks: 
       - _ref: shared/footer.yaml
   header:
     blocks:
@@ -54,20 +48,32 @@ blocks:
       - id: details
         type: Descriptions
         properties:
+          bordered: true
           column: 2
           items:
-            - label: Email
-              value:
-                _user: email
-            - label: Nama
-              value:
-                _user: profile.name
-            - label: NIK/NIP
-              value:
-                _user: nik_nip
-            - label: Active Roles
-              value:
-                _user: roles
+            - _ref:
+                path: pages/users/components/label_user_not_set.yaml
+                vars:
+                  labelData: Email
+                  userData: email
+            - _ref:
+                path: pages/users/components/label_user_not_set.yaml
+                vars:
+                  labelData: Nama
+                  userData: profile.name
+            - _ref:
+                path: pages/users/components/label_user_not_set.yaml
+                vars:
+                  labelData: 
+                    _if_none:
+                      - _user: identity.type
+                      - No Identifikasi
+                  userData: identity.number
+            - _ref:
+                path: pages/users/components/label_user_not_set.yaml
+                vars:
+                  labelData: Jurusan
+                  userData: identity.prodi
       - id: edit_profile_button
         type: Button
         layout:
@@ -99,31 +105,59 @@ blocks:
               params:
                 callbackUrl:
                   url: AUTH0_LOGOUT
-      - id: change_roles
-        type: Selector
-        properties:
-          title: Change Roles
-          options:
-            _user: add_roles
-            # _array.map:
-            #   - _user: add_roles
-            #   - _function:
-            #       value:
-            #         __args: 0
-      - id: change_role_button
-        type: Button
-        properties:
-          title: Change Role
-          # shape: round
-          icon: AiOutlineEdit
-          block: true
-        events:
-          onClick:
-            - id: change_role
-              type: Request
-              params: change_role
-            - id: update_user_id_token
-              type: Login
-              params:
-                callbackUrl:
-                  pageId: profile
+      - id: box_change_role
+        type: Box
+        layout:
+          contentGutter: 15
+        visible:
+          _ne:
+            - _user: roles-all.1
+            - null
+        blocks:
+          - id: change_roles
+            type: Selector
+            properties:
+              title: Active Roles (Pilih untuk merubah)
+              allowClear: false
+              options:
+                # _log:
+                  _user: roles-all
+                # _array.concat:
+                #   - _user: add_roles
+                #   - _user: roles
+                # _array.map:
+                #   - _user: add_roles
+                #   - _function:
+                #       value:
+                #         __args: 0
+            events:
+              onMount:
+                - id: default_state
+                  type: SetState
+                  params:
+                    change_roles:
+                      _user: roles
+          - id: change_role_button
+            type: Button
+            properties:
+              title: Change Role
+              # shape: round
+              icon: AiOutlineEdit
+              block: true
+            events:
+              onClick:
+                - id: change_role
+                  type: Request
+                  params: change_role
+                - id: update_user_id_token
+                  type: Login
+                  params:
+                    callbackUrl:
+                      pageId: profile
+          # - id: custom_button
+          #   type: CustomButton
+          #   properties:
+          #     title: Custom Button
+          #     # shape: round
+          #     icon: AiOutlineEdit
+          #     block: true

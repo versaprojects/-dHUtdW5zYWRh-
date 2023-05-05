@@ -1,18 +1,16 @@
-id: get_nik_nip
+id: get_data_user
 type:  GoogleSheetGetOne
 connectionId: gs_data_user
 payload:
   nik_nip:
     _state: set_nik_nip
-  user:
-    _state: user
+  prodi:
+    _state: program_studi
 properties:
   filter:
     _and:
     nik_nip:
       _payload: nik_nip
-    first_name:
-      _payload: user.profile.first_name
-    last_name:
-      _payload: user.profile.last_name
+    program_studi:
+      _payload: prodi.set
     claimed: false

@@ -1,0 +1,17 @@
+- _ref: pages/surat/requests/get_list_pa.yaml
+- _ref: pages/surat/requests/get_list_tu.yaml
+- _ref: pages/surat/requests/get_list_dekan.yaml
+- _ref: pages/surat/requests/get_list_kaprodi.yaml
+
+- _ref: pages/surat/requests/get_permohonan.yaml
+- _ref: pages/surat/requests/get_permohonan_one.yaml
+
+- _ref: pages/surat/requests/get_nomor_urut.yaml
+
+- _ref: pages/surat/requests/comment_permohonan.yaml
+- _ref: pages/surat/requests/tolak_permohonan.yaml
+- _ref: pages/surat/requests/setujui_permohonan.yaml
+- _ref: pages/surat/requests/lihat_permohonan.yaml
+- _ref: pages/surat/requests/proses_permohonan.yaml
+- _ref: pages/surat/requests/selesai_permohonan.yaml
+- _ref: pages/surat/requests/ambil_permohonan.yaml

@@ -1,0 +1,25 @@
+id: get_parent_prodi
+type: MongoDBAggregation
+connectionId: jurusan
+payload:
+  code:
+    _user: identity.code
+  type: parent
+properties:
+  pipeline:
+    - $match:
+        # status: 
+        #   $eq: 
+        #     _payload: status.type_1
+        $and:
+          - code: 
+              $eq: 
+                _payload: code
+          - type:
+              $eq: 
+                _payload: type
+    - $project:
+        label: $name 
+        value: $name
+    - $sort:
+        label: 1 # Sort the list alphabetically according to the label

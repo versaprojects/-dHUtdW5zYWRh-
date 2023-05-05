@@ -21,43 +21,395 @@ blocks:
           src:
             _if_none:
               - _state: user.profile.picture
-              - _state: user.image
+              - _user: image
           alt:
             _user: user.profile.name
       - id: new_avatar
         type: Button
+        visible:
+          _and:
+            - _ne:
+              - _user: identity.number
+              - null
         properties:
           icon: SyncOutlined
           shape: round
           size: small
           type: default
           title: New Avatar
-    events:
-      onClick:
-        # Generate a new picture URL.
-        - id: new_avatar_scr
-          type: SetState
-          params:
-            user:
-              profile:
+        events:
+          onClick:
+            # Generate a new picture URL.
+            - id: new_avatar_scr
+              type: SetState
+              params:
                 _log:
-                  picture:
-                    _nunjucks:
-                      template: 
-                        'https://avatars.dicebear.com/api/bottts/{{ random }}.svg'
+                  user:
+                    profile:
+                      picture:
+                        _nunjucks:
+                          template: 
+                            'https://avatars.dicebear.com/api/bottts/{{ random }}.svg'
+                          on:
+                            _log:
+                              random:
+                                _random:
+                                  type: string
+                                  length: 12
+                    identity:
+                      type:
+                        _user: identity.type
+  - id: profile_box
+    type: Box
+    layout:
+      contentGutter: 16
+    # visible:
+    #   _and:
+    #     - _ne:
+    #       - _user: profile.name
+    #       - null
+    #     - _eq:
+    #       - _user: identity.number
+    #       - null
+    blocks:
+    - id: user.email
+      type: TextInput
+      layout:
+        span: 12
+        sm:
+          span: 12
+      properties:
+        # inputStyle:
+        #   borderRadius: 10
+        disabled: true
+        title: Email
+    - id: user.roles
+      type: TextInput
+      layout:
+        span: 12
+        sm:
+          span: 12
+      properties:
+        # inputStyle:
+        #   borderRadius: 10
+        disabled: true
+        title: Active Role
+      events:
+        onMount:
+          - id: init_role
+            type: SetState
+            params:
+              user.roles:
+                _if_none:
+                  - _state: user.roles
+                  - Belum Terverifikasi
+    - id: user.identity.number
+      type: TextInput
+      layout:
+        span: 12
+        sm:
+          span: 12
+      properties:
+        # inputStyle:
+        #   borderRadius: 10
+        disabled: true
+        title: 
+          _if_none:
+            - _state: user.identity.type
+            - No Identifikasi
+      events:
+        onMount:
+          - id: init_nik_nip
+            type: SetState
+            params:
+              user.identity.number:
+                _if_none:
+                  - _state: user.identity.number
+                  - Belum Terverifikasi
+    - id: user.roles-all
+      type: MultipleSelector
+      layout:
+        span: 12
+        sm:
+          span: 12
+      visible:
+        _and:
+          - _ne:
+            - _state: user.roles
+            - Belum Terverifikasi
+          - _ne:
+            - _state: user.roles-all
+            - null
+      properties:
+        # inputStyle:
+        #   borderRadius: 10
+        disabled: true
+        title: Available Roles
+        options:
+          _state: user.roles-all
+    - id: user.identity.prodi
+      type: Selector
+      layout:
+        span: 12
+        sm:
+          span: 12
+      visible:
+        _and:
+          - _ne:
+            - _state: user.roles
+            - Belum Terverifikasi
+          - _ne:
+            - _state: user.roles-all
+            - null
+      # required: true
+      properties:
+        disabled: true
+        placeholder: Pilih Jurusan
+        options:
+          _request: get_jurusan
+        label:
+          title: Program Studi
+      events:
+        onMount:
+          - id: get_jurusan
+            type: Request
+            params: get_jurusan
+    - id: user.identity.pa
+      type: Selector
+      layout:
+        span: 12
+        sm:
+          span: 12
+      visible:
+        _and:
+          - _eq:
+            - _state: user.roles
+            - Mahasiswa
+      # required: true
+      properties:
+        disabled:
+          _if:
+            test:
+              _ne:
+                - _user: roles
+                - User Admin
+            then:
+              true
+            else: 
+              false
+        placeholder: Pilih Dosen
+        options:
+          _request: get_users_by_role
+        label:
+          title: Dosen PA
+      events:
+        onMount:
+          - id: set_find_role
+            type: SetState
+            params:
+              find_role: Pembimbing Akademik
+          - id: get_dosen
+            type: Request
+            params: get_users_by_role
+  - id: connect_box
+    type: Box
+    layout:
+      contentGutter: 16
+    visible:
+      _and:
+        - _eq:
+          - _user: roles
+          - null
+        - _eq:
+          - _user: identity.number
+          - null
+    blocks:
+    - id: divider
+      type: Divider
+      properties:
+        title: Hubungkan Data
+    - id: set_nik_nip
+      type: TextInput
+      layout:
+        span: 12
+        sm:
+          span: 12
+      properties:
+        title: NIK / NIP
+        # inputStyle:
+        #   borderRadius: 10
+        # label:
+        #   inline: true
+    - id: program_studi.set
+      type: Selector
+      layout:
+        span: 12
+      required: true
+      properties:
+        placeholder: Pilih Program Studi
+        options:
+          _request: get_jurusan
+        label:
+          title: Program Studi
+      events:
+        onMount:
+          - id: get_jurusan
+            type: Request
+            params: get_jurusan
+        onChange:
+          - id: get_jurusan_one
+            type: Request
+            params: get_jurusan_one
+          - id: fetch_jurusan
+            type: SetState
+            params: 
+              _log:
+                program_studi_data:
+                  _request: get_jurusan_one
+    - id: connect_button
+      type: Button
+      properties:
+        title: Hubungkan
+        # shape: round
+        icon: AiOutlineLink
+        block: true
+      events:
+        onClick:
+          - id: init_role
+            type: SetState
+            params:
+              user:
+                roles: 
+                  main: null
+                nik_nip: null
+          - id: request_get_data_user
+            type: Request
+            messages:
+              loading: true
+            params: get_data_user
+          - id: fetch_all_roles
+            type: SetState
+            params:
+              all_roles:
+                _string.split:
                       on:
-                        _log:
-                          random:
-                            _random:
-                              type: string
-                              length: 12
-  - id: user.email
-    type: TextInput
-    properties:
-      # inputStyle:
-      #   borderRadius: 10
-      disabled: true
-      title: Email
+                        _request: get_data_user.all_roles
+                      separator: ','
+          - id: fetch_user_data
+            type: SetState
+            messages:
+              loading: true
+            params:
+              _log:
+                # user:
+                #   _user: true
+                user:
+                  profile: 
+                    first_name:
+                      _request: get_data_user.first_name
+                    last_name:
+                      _request: get_data_user.last_name
+                  roles:
+                    _state: all_roles.0
+                  roles-all:
+                    _state: all_roles
+                  identity:
+                    number:
+                      _request: get_data_user.nik_nip
+                    type:
+                      _request: get_data_user.type
+                    pa:
+                      _if_none:
+                        - _request: get_data_user.dosen_pa
+                        - '-'
+                    prodi:
+                      _request: get_data_user.program_studi
+                    code:
+                      _state: program_studi_data.code
+          # - id: foo_throw
+          #   type: Throw
+          #   params:
+          #     throw:
+          #       _eq:
+          #         - _state: data_nik_nip
+          #         - null
+          #     message: 
+          #       _nunjucks:
+          #         template: |
+          #           Nama: "{{ nama }}" dengan NIP: "{{ nip }}" Tidak Ditemukan
+          #         on:
+          #           nip:
+          #             _state: set_nik_nip
+          #           nama:
+          #             _nunjucks:
+          #               template: |
+          #                 {{ first_name }} {{ last_name }}
+          #               on:
+          #                 first_name:
+          #                   _state: user.profile.first_name
+          #                 last_name:
+          #                   _state: user.profile.last_name
+          #     status: error
+          - id: error_message
+            type: DisplayMessage
+            skip:
+              _ne:
+                - _request: get_data_user.nik_nip
+                - null
+            params:
+              content:
+                _nunjucks:
+                  template: |
+                    NIP: "{{ nip }}" dengan Program Studi: "{{ prodi }}" Tidak Ditemukan. 
+                  on:
+                    nip:
+                      _state: set_nik_nip
+                    prodi:
+                      _state: program_studi.set
+              status: error
+              duration: 10
+          - id: success_message
+            type: DisplayMessage
+            skip:
+              _eq:
+                - _request: get_data_user.nik_nip
+                - null
+            params:
+              content:
+                _nunjucks:
+                  template: |
+                    NIP: "{{ nip }}" dengan Program Studi: "{{ prodi }}" Ditemukan. 
+                  on:
+                    nip:
+                      _state: set_nik_nip
+                    prodi:
+                      _state: program_studi.set
+              status: success
+              duration: 10
+          # - id: set_role
+          #   type: SetState
+          #   params:
+          #     user:
+          #       roles:
+          #         _state: data_nik_nip.roles
+          #       nik_nip:
+          #         _state: data_nik_nip.nik_nip
+          #       image:
+          #         _user: image
+    - id: contact_box
+      type: Box
+      properties:
+        style:
+          text-align: center
+      blocks:
+        - id: block_id
+          type: Button
+          properties:
+            block: true
+            href: "#"
+            icon: AiFillPhone
+            title: Hubungi Admin Apabila Akun tidak ditemukan.
+            type: link
   - id: user.profile.first_name
     type: TextInput
     required: Harap mengisi nama depan.
@@ -103,17 +455,4 @@ blocks:
       # inputStyle:
       #   borderRadius: 10
       title: Alamat
-  - id: user.profile.jurusan
-    type: Selector
-    required: true
-    properties:
-      placeholder: Pilih Jurusan
-      options:
-        _request: get_jurusan
-      label:
-        title: Jurusan
-    events:
-      onMount:
-        - id: get_jurusan
-          type: Request
-          params: get_jurusan
+  

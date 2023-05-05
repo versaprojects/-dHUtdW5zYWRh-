@@ -1,0 +1,31 @@
+id: get_users_by_role
+type: MongoDBAggregation
+connectionId: users
+payload:
+  # jenis_surat: 
+  #   jenis_1: Surat Permohon Cuti Akademik
+  #   jenis_2: Surat Peminjaman Ruang & Barang
+  user_role:
+    _state: find_role 
+    # type_2: Berkas Dibatalkan
+properties:
+  pipeline:
+    - $match:
+        roles-all.1: 
+          $eq: 
+            _payload: user_role
+    - $project:
+        label: $profile.name
+        value: $identity.number 
+        email: 1
+        identity_number: $identity.number
+        profile: 1
+        dosen_pa: $identity.pa
+        roles: 1
+        roles-all: 1
+        updated_at:
+          $dateToString:
+            date: $updated.timestamp
+            format: '%Y/%m/%d'
+    - $sort:
+        email: 1

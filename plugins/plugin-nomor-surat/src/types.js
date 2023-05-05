@@ -1,5 +1,7 @@
+import * as client from './operatorsClient.js';
+
 export default {
   operators: {
-    client: ['_get_nomor_surat', '_shared_operator'],
+    client: Object.keys(client),
   },
 };

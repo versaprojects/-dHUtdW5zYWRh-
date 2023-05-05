@@ -1,5 +1,5 @@
 id: homepage
-type: PageHCF
+type: Box
 properties:
   _ref:
     path: shared/header.yaml

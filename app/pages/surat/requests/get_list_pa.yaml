@@ -2,6 +2,8 @@ id: get_list_pa
 type: MongoDBAggregation 
 connectionId: permohonan
 payload:
+  user:
+    _user: identity
   jenis_surat: 
     jenis_1: Surat Permohon Cuti Akademik
     jenis_2: Surat Peminjaman Ruang & Barang
@@ -26,6 +28,13 @@ properties:
               - status: 
                   $ne: 
                     _payload: status.type_2
+          - $and:
+              - dosen_pa: 
+                  $eq: 
+                    _payload: user.identity.number
+              - code:
+                  $eq: 
+                    _payload: user.identity.code
     - $project:
         tgl_pengajuan:
           $dateToString:
@@ -40,7 +49,7 @@ properties:
         file: 1
         status: 1
     - $sort:
-        tgl_pengajuan: -1 # Sort the list alphabetically according to the label 
+        tgl_pengajuan: 1 # Sort the list alphabetically according to the label 
     # - $skip:
     #     _payload: pagination.skip
     # - $limit:

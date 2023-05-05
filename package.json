@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "license": "MIT",
   "packageManager": "pnpm@7.12.2",
-  "dependencies": {},
+  "dependencies": {
+    "lowdefy": "4.0.0-rc.5"
+  },
   "scripts": {
     "lowdefy:build": "pnpm -r --workspace-root --filter='lowdefy-app' lowdefy:build",
     "lowdefy:dev": "pnpm -r --workspace-root --filter='lowdefy-app' lowdefy:dev",

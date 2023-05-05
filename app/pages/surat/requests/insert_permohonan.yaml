@@ -4,8 +4,10 @@ connectionId: permohonan
 payload:
   pengajuan:
     _state: pengajuan
+  pengajuan_alasan:
+    _state: alasan
   user:
-    _user: id
+    _user: true
   actor:
     _user: profile.name
   # date_now:
@@ -20,9 +22,13 @@ properties:
     _object.assign:
       - _payload: pengajuan
       - user_id:
-          _payload: user
+          _payload: user.id
+        code:
+          _payload: user.identity.code
         tgl_pengajuan:
           _date: now
+        alasan:
+          _payload: pengajuan_alasan
         timeline:
           - action: Berkas Dibuat
             status: 

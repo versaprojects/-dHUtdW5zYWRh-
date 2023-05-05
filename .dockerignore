@@ -1,5 +1,4 @@
 Dockerfile
-.dockerignore
 node_modules
 LICENCE
 README.md
@@ -8,3 +7,4 @@ README.md
 .git
 app/node_modules
 app/.lowdefy
+pnpm-lock.yaml

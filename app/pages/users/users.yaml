@@ -48,6 +48,7 @@ blocks:
                 sortable: true
                 resizable: true
                 filter: true
+                flex: 1
               columnDefs:
                 - headerName: Email
                   field: email
@@ -60,6 +61,12 @@ blocks:
                   width: 150
                 - headerName: Roles
                   field: roles
+                  width: 200
+                - headerName: All Roles
+                  field: roles-all
+                  width: 200
+                - headerName: Dosen PA
+                  field: dosen_pa
                   width: 200
                 - headerName: Updated at
                   field: updated_at

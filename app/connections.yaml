@@ -39,7 +39,6 @@
     write: true
     columnTypes:
       nik_nip: string
-      name: string
       roles: string
       claimed: boolean
 - id: fonnte

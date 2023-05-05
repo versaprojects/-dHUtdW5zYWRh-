@@ -97,9 +97,9 @@ blocks:
         - id: refresh
           type: Request
           params: 
-              - _var: approveRequestParams
-            #   - get_list_tu
-              - get_permohonan
+            - _var: approveRequestParams
+          #   - get_list_tu
+            - get_permohonan
         - id: refresh_detail
           type: SetState
           params:

@@ -6,7 +6,9 @@ properties:
     - $project:
         email: 1
         profile: 1
+        dosen_pa: $identity.pa
         roles: 1
+        roles-all: 1
         updated_at:
           $dateToString:
             date: $updated.timestamp

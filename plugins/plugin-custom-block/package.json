@@ -1,0 +1,31 @@
+{
+  "name": "plugin-custom-block",
+  "version": "1.0.0",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    "./blocks": "./dist/blocks.js",
+    "./types": "./dist/types.js"
+  },
+  "files": [
+    "dist/*"
+  ],
+  "scripts": {
+    "build": "swc src --out-dir dist --config-file ../../.swcrc --delete-dir-on-start --copy-files",
+    "prepare": "pnpm build"
+  },
+  "devDependencies": {
+    "@swc/cli": "^0.1.57",
+    "@swc/core": "^1.2.194"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "lowdefy custom plugin for block",
+  "keywords": [
+    "lowdefy",
+    "custom",
+    "plugin"
+  ],
+  "author": "versa-project"
+}

@@ -6,47 +6,15 @@ payload:
     _input: user_id
   user:
     _state: user
+  null_add_roles:
+    _state: array_add_roles
 properties:
   filter:
     _id:
       _payload: user_id
   update:
     $set:
-      updated:
-        _ref: shared/change_stamp.yaml
-      profile:
-        picture:
-          _payload: user.profile.picture
-        phone:
-          _payload: user.profile.phone
-        address:
-          _payload: user.profile.address
-        jurusan:
-          _payload: user.profile.jurusan
-        first_name:
-          _string.trim:
-            _if_none:
-              - _payload: user.profile.first_name
-              - ''
-        last_name:
-          _string.trim:
-            _if_none:
-              - _payload: user.profile.last_name
-              - ''
-        name:
-          _string.concat:
-            - _string.trim:
-                _if_none:
-                  - _payload: user.profile.first_name
-                  - ''
-            - ' '
-            - _string.trim:
-                _if_none:
-                  - _payload: user.profile.last_name
-                  - ''
-      roles:
-        _payload: user.roles
-      add_roles:
-        _payload: user.add_roles
-      nik_nip:
-        _payload: user.nik_nip
+      _object.assign:
+        - _payload: user
+        - updated:
+            _ref: shared/change_stamp.yaml

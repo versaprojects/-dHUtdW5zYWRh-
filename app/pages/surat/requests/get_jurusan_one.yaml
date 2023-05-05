@@ -1,0 +1,16 @@
+id: get_jurusan_one
+type: MongoDBFindOne 
+connectionId: jurusan
+payload:
+  program_studi:
+    _state: program_studi.set
+properties:
+  query:
+    name:
+      _payload: program_studi
+  pipeline:
+    - $project:
+        name: 1
+        code: 1
+    - $sort:
+        label: 1 # Sort the list alphabetically according to the label
