@@ -5,9 +5,9 @@ name: TU Unsada
 plugins:
   - name: 'plugin-get-nomor-surat'
     version: 'workspace:*'
-  # - name: 'plugin-custom-block'
-  #   version: 'workspace:*'
-    
+  - name: 'plugin-custom-block'
+    version: 'workspace:*'
+
 config:
   homePageId: homepage
 auth:
